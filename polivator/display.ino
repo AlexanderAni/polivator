@@ -158,8 +158,8 @@ void dateToText(char *text, DateTime time) {
 		strcpy(text, "--");
 	} else {
 		// Day
-		itoa(time.day, value, 10);
-		if (time.day < 10) {
+		itoa(time.date, value, 10);
+		if (time.date < 10) {
 			strcpy(text, "0");
 			strcat(text, value);
 		} else {
