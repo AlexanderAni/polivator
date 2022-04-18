@@ -115,8 +115,8 @@ void flowerSetup() {
 	// Sensor sensivity, %
 	// Soil pin: A2, A3 ...
 	// Quantity matches with FLOWER_COUNT=10
-	flowerData[0] = (flowerDataStruct) {50, 12, 50, A2};
-	flowerData[1] = (flowerDataStruct) {100, 4, 50, A3};
+	flowerData[0] = (flowerDataStruct) {50, 12, 80, A1};
+	flowerData[1] = (flowerDataStruct) {100, 6, 80, A2};
 	// flowerData[2] = (flowerDataStruct) {1000, 6, 20};
 	// flowerData[3] = (flowerDataStruct) {1000, 0, 0};
 	// flowerData[4] = (flowerDataStruct) {1000, 9, 100};

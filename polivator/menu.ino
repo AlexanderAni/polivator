@@ -164,7 +164,7 @@ void pressPositionValue() {
 		saveFlowerData();
 		resetFlowerTasks();
 		char title[11] = "Saved";
-		char text[21];
+		char text[21] = " ";
 		displayMessage(title, text, 1000);
 	}
 }

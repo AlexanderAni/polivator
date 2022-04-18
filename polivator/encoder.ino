@@ -16,6 +16,7 @@ void encoderInterrupt() {
 			enc.tickISR();
 		} else {
 			awake();
+		    enc.resetState(); // Reset any encoder state after awake
 		}
 		wasActive();
 	}
