@@ -13,7 +13,7 @@ void encoderInterrupt() {
 		power.wakeUp();
 		// With 200ms button delay
 		if (!state.sleep_mode)  {
-			enc.tickISR();
+			// enc.tickISR();
 		} else {
 			awake();
 		    enc.resetState(); // Reset any encoder state after awake
