@@ -599,7 +599,7 @@ void displayFlowerData(byte flower_num) {
 	char humid[DISPLAY_TEXT_WIDTH_2];
 	char text[DISPLAY_TEXT_WIDTH_2];
 	// Humidity
-	itoa(flowerData[flower_num].humidity, humid, 10);
+	itoa(state.flower_humidity[flower_num], humid, 10);
 	strcat(humid, "%");
 	// Normal mode
 	if (flowerConnection[flower_num].connected && !flowerWateringQueueNow(flower_num)) {

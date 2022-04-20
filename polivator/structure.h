@@ -9,7 +9,6 @@ struct flowerDataStruct {
 	byte period; // Water period, max 63
 	byte sensor; // Water by sensor, 0-100%
 	byte soil_pin; // Soil humid sensor pin (A1, A2...)
-	byte humidity; // Soil humid by sensor, 0-100%
 	DateTime water_time[5]; // 5 last times of watering
 	byte water_humidity[5]; // 5 last humidities before watering
 	byte last_time; // A last time position from water_time array (circle)
@@ -53,6 +52,7 @@ struct stateStruct {
 	byte active_water_humidity; // Humidity before Active watering
 	uint32_t active_watering_stop_time; // time when flower watering will stop, millis()
 	bool plate_full[10];
+	byte flower_humidity[10];
 	uint32_t leakage_time; // Leakage was detected. millis
 	// bool water_full[10];
 

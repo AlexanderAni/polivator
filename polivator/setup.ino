@@ -62,7 +62,7 @@ void defaultState() {
 
 	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
 		// Default all flowers are watered
-		flowerData[i].humidity = 100; // Default 100% not to start watering
+		state.flower_humidity[i] = 100; // Default 100% not to start watering
 		for (byte i1 = 0; i1 < 5; i1 += 1) {
 			flowerData[i].water_time[i1] = no_time;
 			flowerData[i].water_humidity[i1] = 0;
