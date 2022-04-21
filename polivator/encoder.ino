@@ -9,15 +9,10 @@ void encSetup() {
 }
 
 void encoderInterrupt() {
-	if ((millis() - state.last_active_time) > 200) {
-		power.wakeUp();
-		// With 200ms button delay
-		if (!state.sleep_mode)  {
-			// enc.tickISR();
-		} else {
-			awake();
-		    enc.resetState(); // Reset any encoder state after awake
-		}
+	power.wakeUp();
+	if (state.sleep_mode) {
+		awake();
+		enc.resetState(); // Reset any encoder state after awake
 		wasActive();
 	}
 }
@@ -25,7 +20,7 @@ void encoderInterrupt() {
 void encoderCheck() {
 	// Check encoder
 	if (enc.tick()) {
-		if (enc.click()) {
+		if (enc.click() && (millis() - state.last_active_time) > 200) {
 			// Position select
 			wasActive();
 			// Serial.println("OK");
