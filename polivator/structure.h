@@ -1,7 +1,7 @@
 // Default setup definitions
 
 #pragma once
-
+#define FLOWER_SCHEDULE_COUNT 10
 // Structure Defenition
 
 struct flowerDataStruct {
@@ -9,8 +9,8 @@ struct flowerDataStruct {
 	byte period; // Water period, max 63
 	byte sensor; // Water by sensor, 0-100%
 	byte soil_pin; // Soil humid sensor pin (A1, A2...)
-	DateTime water_time[5]; // 5 last times of watering
-	byte water_humidity[5]; // 5 last humidities before watering
+	DateTime water_time[FLOWER_SCHEDULE_COUNT]; // several last times of watering
+	byte water_humidity[FLOWER_SCHEDULE_COUNT]; // several last humidities before watering
 	byte last_time; // A last time position from water_time array (circle)
 };
 
@@ -45,6 +45,7 @@ struct stateStruct {
 	byte menu_screen; // Selected screen
 	byte menu_position; // Selected position
 	byte menu_position_slide; // Selected screen slide position
+	byte menu_schedule_position; // Selected position
 	// Task
 	int8_t active_sensor; // Active flower sensor. `-1` is disabled. There can be only one analog soil moisure sensor measurement at one time
 	uint32_t active_sensor_check_time; // time when flower sensor will be ready, millis()

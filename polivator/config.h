@@ -25,7 +25,7 @@
 #define LEAKAGE_FINISH_DELAY 10000 // millis. Delay to check if leakage is finished
 
 #define DAY_START_HOUR 9
-#define DAY_END_HOUR 21
+#define DAY_END_HOUR 23
 // This year and time number will be "never"
 #define NEVER_YEAR 65535
 #define NEVER_TIME 2147483647
@@ -87,7 +87,7 @@ void stateSetup() {
 	state.sleep_delay = AWAKE_DELAY; // Normal sleep delay
 }
 
-// 10 flowers
+// 2 flowers
 const byte FLOWER_COUNT = 2;
 flowerDataStruct flowerData[FLOWER_COUNT];
 flowerConnectionStruct flowerConnection[FLOWER_COUNT];

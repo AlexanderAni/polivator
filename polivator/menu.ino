@@ -83,6 +83,9 @@ void pressPosition() {
 			}
 		} else {
 			// Change value
+			if (state.menu_position == 1) {
+				state.menu_schedule_position = 0;
+			}
 			state.menu_function = 2;
 		}
 	}
@@ -94,6 +97,12 @@ void prevPositionValue() {
 	byte flower_num = state.menu_screen - 1;
 	state.flowerDataChanged = true;
 	switch (state.menu_position) {
+		case 1:
+		// Change schedule position
+		if (state.menu_schedule_position < FLOWER_SCHEDULE_COUNT - 4) {
+			state.menu_schedule_position += 1;
+		}
+		break;
 		case 3:
 		// Change period
 		if (flowerData[flower_num].period > 0) {
@@ -123,6 +132,12 @@ void nextPositionValue() {
 	byte flower_num = state.menu_screen - 1;
 	state.flowerDataChanged = true;
 	switch (state.menu_position) {
+		case 1:
+		// Change schedule position
+		if (state.menu_schedule_position > 0) {
+			state.menu_schedule_position -= 1;
+		}
+		break;
 		case 3:
 		// Change period
 		if (flowerData[flower_num].period < 51) {

@@ -151,7 +151,10 @@ void setDefaultWateringTask(byte flower_num) {
 void stopWateringTask(byte flower_num) {
 	// Stop a task for watering the flower
 	tasks.water_time[flower_num] = 0;
-	saveWaterTimeAndHumidity(flower_num, rtc.getTime());// Save watering time
+	if (state.active_watering == flower_num) {
+		// Save watering time if active watering has been stopped
+		saveWaterTimeAndHumidity(flower_num, rtc.getTime());
+	}
 	// Serial.print("Stop watering ");
 	// Serial.println(flower_num);
 	// Serial.flush();
@@ -318,7 +321,7 @@ DateTime lastWaterTime(byte flower_num) {
 void saveWaterTimeAndHumidity(byte flower_num, DateTime time) {
 	byte last_time;
 	last_time = flowerData[flower_num].last_time;
-	if (last_time == 4) {
+	if (last_time == FLOWER_SCHEDULE_COUNT - 1) {
 		last_time = 0;
 	} else {
 		last_time += 1;

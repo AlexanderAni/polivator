@@ -48,9 +48,10 @@ void defaultState() {
 	state.leakage_time = 0;
 	// Menu
 	state.menu_function = 0; // 0-screen selector, 1-position selector, 2-position changing
-	state.menu_screen = 0; // // Selected screen, max 15
-	state.menu_position = 0; // Selected position, max 15
-	state.menu_position_slide = 0; // Position slide to fit the screen, max 15
+	state.menu_screen = 0; // // Selected screen
+	state.menu_position = 0; // Selected position
+	state.menu_position_slide = 0; // Position slide to fit the screen
+	state.menu_schedule_position = 0; // Position of schedule
 	// Environment
 	// state.day_part = 0; // 0-undefined, 1-day, 2-night
 	state.humidity = 0; // percent
@@ -65,7 +66,7 @@ void defaultState() {
 	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
 		// Default all flowers are watered
 		state.flower_humidity[i] = 100; // Default 100% not to start watering
-		for (byte i1 = 0; i1 < 5; i1 += 1) {
+		for (byte i1 = 0; i1 < FLOWER_SCHEDULE_COUNT; i1 += 1) {
 			flowerData[i].water_time[i1] = no_time;
 			flowerData[i].water_humidity[i1] = 0;
 		}

@@ -581,17 +581,23 @@ void displaySchedule(byte flower_num) {
 	flowerNextWateringTimeText(text, flower_num);
 	strcpy(text1, "next: ");
 	strcat(text1, text);
-	displayMenuLineLR(timeText(rtc.getTime()), text1, 0, true); // selected
+	displayMenuLineLR(timeText(rtc.getTime()), text1, 0, false); // unselected
 
 	for (byte i = 0; i < 4; i += 1) {
-		last_time = flowerData[flower_num].last_time - i;
+		last_time = flowerData[flower_num].last_time - state.menu_schedule_position - i;
 		if (last_time < 0) {
-			last_time += 5;
+			last_time += FLOWER_SCHEDULE_COUNT;
+		} else if (last_time > (FLOWER_SCHEDULE_COUNT -1)) {
+			last_time -= FLOWER_SCHEDULE_COUNT;
 		}
+
 		dateToText(text, flowerData[flower_num].water_time[last_time]);
-		itoa(flowerData[flower_num].water_humidity[last_time], text2, 10);
+		itoa(i + state.menu_schedule_position + 1, text1, 10); // Number
+		itoa(flowerData[flower_num].water_humidity[last_time], text2, 10); // Humidity
+		strcat(text1, " ");
+		strcat(text1, text);
 		strcat(text2, "%");
-		displayMenuLineLR(text, text2, i + 1);
+		displayMenuLineLR(text1, text2, i + 1);
 	}
 }
 
