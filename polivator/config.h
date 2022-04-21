@@ -8,13 +8,14 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 0
+#define MINOR_VER 1
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
 #define SLEEP_DELAY 600000 // Sleep delay, milliseconds / 10 min
 #define AWAKE_DELAY 300 // Awake delay, milliseconds
 #define AWAKE_TIME 20000 // Time before going to sleep, milliseconds
+#define SCHEDULE_AWAKE_TIME 60000 // Time before going to sleep, milliseconds
 #define DIM_TIME 1500 // Time to dim before going to sleep, milliseconds
 #define DISPLAY_UPDATE_COUNT 5 // Count skiped before update display
 #define SENSOR_CHECK_DELAY 5000 // Time delay for check temp humid and other sensors
@@ -115,8 +116,8 @@ void flowerSetup() {
 	// Sensor sensivity, %
 	// Soil pin: A2, A3 ...
 	// Quantity matches with FLOWER_COUNT=10
-	flowerData[0] = (flowerDataStruct) {50, 12, 80, A1};
-	flowerData[1] = (flowerDataStruct) {100, 6, 80, A2};
+	flowerData[0] = (flowerDataStruct) {50, 12, 80, A0};
+	flowerData[1] = (flowerDataStruct) {100, 6, 80, A1};
 	// flowerData[2] = (flowerDataStruct) {1000, 6, 20};
 	// flowerData[3] = (flowerDataStruct) {1000, 0, 0};
 	// flowerData[4] = (flowerDataStruct) {1000, 9, 100};

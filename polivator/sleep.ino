@@ -1,12 +1,16 @@
 // Sleep
 
 void wannaSleep() {
+	uint32_t awake_time = AWAKE_TIME;
+	if (state.menu_screen != 0 && state.menu_function == 2 && state.menu_position == 1) {
+		awake_time = SCHEDULE_AWAKE_TIME;
+	}
 	// Check if active time is too long
 	if (!state.sleep_mode) {
-		if ((millis() - state.last_active_time > AWAKE_TIME) && state.active_watering == -1) {
+		if ((millis() - state.last_active_time > awake_time) && state.active_watering == -1) {
 			// Go to deep sleep only while watering is not active
 			goSleep();
-		} else if (millis() - state.last_active_time > AWAKE_TIME - DIM_TIME) {
+		} else if (millis() - state.last_active_time > awake_time - DIM_TIME) {
 			dimDisplay(true);
 		}
 	}
