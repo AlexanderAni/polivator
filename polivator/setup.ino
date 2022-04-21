@@ -1,6 +1,8 @@
 // Setup
 
 void interfaceSetup() {
+	// Default analog input reference 5v (Arduino Pro mini 5v)
+	analogReference (DEFAULT);
 	// Pump
 	pinMode(PUMP_PIN, OUTPUT);
 	pinMode(PUMP_PIN2, OUTPUT);
