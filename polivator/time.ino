@@ -76,7 +76,7 @@ long timeDelta(DateTime from, DateTime to) {
 
 bool dayTime() {
 	byte hour = rtc.getTime().hour;
-	if (hour > (DAY_START_HOUR - 1) && hour < DAY_END_HOUR) {
+	if (hour > (settings.day_start_hour - 1) && hour < settings.day_end_hour) {
 		return true;
 	} else {
 		return false;

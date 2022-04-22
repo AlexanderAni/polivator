@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 2
+#define MINOR_VER 3
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
@@ -79,6 +79,8 @@ const byte PUMP_SPEED = 3; // Speed, millilitre per second, max 255 (0.255 litre
 #define ENC_B_PIN 4
 #define LEAKAGE_INTERRUPT_PIN 2 // Leakage sensor
 
+#define SOIL_SENSOR_ZERO 900
+#define SOIL_SENSOR_FULL 450
 const byte SOIL_SENSOR_PINS[5] = {A0, A1, A2, A3, A6};
 
 void stateSetup() {
@@ -142,6 +144,14 @@ const char *FLOWER_MENU[POSITION_COUNT] = {
 	"By sensor",
 	"Volume",
 };
+const byte SETTINGS_COUNT = 4;
+const char *SETTINGS_MENU[SETTINGS_COUNT] = {
+	"Day starts",
+	"Day ends",
+	"Sensor 0%",
+	"Sensor 100%",
+};
+
 const char FLOWER_MENU_STOP_WATERING[] = "Stop watering";
 const char FLOWER_MENU_FULL_OF_WATER[] = "Full of water  ";
 

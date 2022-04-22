@@ -69,3 +69,14 @@ struct taskStruct {
 	int water_duration[10]; // water task duration, seconds()
 } tasks;
 
+struct globalSettings {
+	byte day_start_hour;
+	byte day_end_hour;
+	int soil_sensor_zero;
+	int soil_sensor_full;
+	// uint32_t sleep_delay;
+	// uint32_t awake_time;
+	// uint32_t schedule_awake_time;
+	// uint32_t sensor_check_delay;
+	// uint32_t leakage_finish_delay;
+} settings;

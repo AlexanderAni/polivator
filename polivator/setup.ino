@@ -35,6 +35,14 @@ void powerSetup() {
 	power.correctMillis(true); // Correct millis() after sleep
 }
 
+// Settings
+
+void defaultSettings() {
+	settings.day_start_hour = DAY_START_HOUR;
+	settings.day_end_hour = DAY_END_HOUR;
+	settings.soil_sensor_zero = SOIL_SENSOR_ZERO;
+	settings.soil_sensor_full = SOIL_SENSOR_FULL;
+}
 
 // State setup
 

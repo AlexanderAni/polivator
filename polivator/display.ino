@@ -399,7 +399,11 @@ void displayData() {
 	if (state.display_upd_count == 0) {
 		disableInterrupts();
 		if (state.menu_screen == 0) {
-			displayDataScreen();
+			if (state.menu_function == 0) {
+				displayDataScreen();
+			} else {
+				displaySettingsScreen();
+			}
 		} else {
 			displayFlowerScreen(state.menu_screen - 1);
 		}
@@ -455,6 +459,112 @@ void displayDataScreen() {
 			displaySmallLine(text1, 1);
 		}
 	}
+}
+
+// Settings
+
+void displaySettingsScreen() {
+	// Title
+	char title[DISPLAY_TEXT_WIDTH_2] = "Settings";
+	char position_text[DISPLAY_TEXT_WIDTH];
+	displaySmallTitle(title);
+
+	switch (state.menu_function) {
+		case 1:
+			// Position change
+			for (byte i = state.menu_position_slide; i < state.menu_position_slide + DISPLAY_POSITIONS; i = i + 1) {
+				bool active = false;
+				// Is Active
+				if (i == state.menu_position - 1) {active = true;};
+				settingsPositionText(position_text, i); // text preparation
+				displayPosition(position_text, i - state.menu_position_slide, active);
+			}
+			break;
+		case 2:
+			// Position change
+			displaySettingsValue();
+			break;
+	}
+}
+
+void settingsPositionText(char* text, byte pos) {
+	strcpy(text, SETTINGS_MENU[pos]);
+	char value[DISPLAY_TEXT_WIDTH_2];
+	switch (pos) {
+		case 0:
+			timeFromHourText(value, settings.day_start_hour);
+			strcat(text, ": ");
+			strcat(text, value);
+			break;
+		case 1:
+			timeFromHourText(value, settings.day_end_hour);
+			strcat(text, ": ");
+			strcat(text, value);
+			break;
+		case 2:
+			itoa(settings.soil_sensor_zero, value, 10);
+			strcat(text, ": ");
+			strcat(text, value);
+			break;
+		case 3:
+			itoa(settings.soil_sensor_full, value, 10);
+			strcat(text, ": ");
+			strcat(text, value);
+			break;
+	}
+}
+
+void timeFromHourText(char text[6], byte val) {
+	// "9" >> "09:00"
+	// "21" >> "21:00"
+	char value_txt[6];
+	if (val < 10) {
+		strcpy(text, "0");
+	} else {
+		strcpy(text, "");
+	}
+	itoa(val, value_txt, 10);
+	strcat(text, value_txt);
+	strcat(text, ":00");
+}
+
+void displaySettingsValue() {
+	// Display position
+	char text[DISPLAY_TEXT_WIDTH_2];
+	char value[DISPLAY_TEXT_WIDTH_2];
+	strcpy(text, SETTINGS_MENU[state.menu_position - 1]);
+
+	// Display value
+	switch (state.menu_position) {
+		case 0:
+			// No position
+			break;
+		case 1:
+			//	Hours
+			timeFromHourText(value, settings.day_start_hour);
+			break;
+		case 2:
+			//	Hours
+			timeFromHourText(value, settings.day_end_hour);
+			break;
+		case 3:
+			//	sensor
+			itoa(settings.soil_sensor_zero, value, 10);
+			break;
+		case 4:
+			//	sensor
+			itoa(settings.soil_sensor_full, value, 10);
+			break;
+	}
+	displaySmallLine(text, 0); // Parameter on the left
+	if (state.menu_position > 2) {
+		int sensor_value = analogRead(SOIL_SENSOR_PINS[0]);
+		char sensor_text[4];
+		itoa(sensor_value, sensor_text, 10);
+		strcat(value, "|now");
+		strcat(value, sensor_text);
+	}
+	displaySmallLine(value, 1); // Value on the right
 }
 
 // Flower Screen

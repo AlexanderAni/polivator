@@ -8,8 +8,9 @@ TimerMs tmr(AWAKE_DELAY, 0, 0);
 
 void setup() {
 	Serial.begin(9600);
-	state.memory_allowed = true;
 	// Serial.println("Setup ...");
+	state.memory_allowed = true;
+	defaultSettings();
 	displaySetup();
 	// rtcSetupTime(); // time autosetup by compilation time
 	rtcSetup();
@@ -109,12 +110,12 @@ byte humidity_percentage(int humidity) {
 	// Calculate humidity 0-100%
 	// Soil sensor (tlc555, 5v)
 	// Values from 950 to 400
-	if (humidity < 450) {
+	if (humidity < settings.soil_sensor_full) {
 		return 100;
-	} else if (humidity > 900) {
+	} else if (humidity > settings.soil_sensor_zero) {
 		return 0;
 	}
-	return map(humidity, 900, 450, 0, 100);
+	return map(humidity, settings.soil_sensor_zero, settings.soil_sensor_full, 0, 100);
 }
 
 void setWateringTask(byte flower_num, uint32_t time, int duration=0) {
