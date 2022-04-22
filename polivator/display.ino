@@ -593,10 +593,15 @@ void displaySchedule(byte flower_num) {
 
 		dateToText(text, flowerData[flower_num].water_time[last_time]);
 		itoa(i + state.menu_schedule_position + 1, text1, 10); // Number
-		itoa(flowerData[flower_num].water_humidity[last_time], text2, 10); // Humidity
+		byte humidity = flowerData[flower_num].water_humidity[last_time];
+		if (humidity == 255) { // No humidity
+			strcpy(text2, "");
+		} else {
+			itoa(humidity, text2, 10); // Humidity percentage
+			strcat(text2, "%");
+		}
 		strcat(text1, " ");
 		strcat(text1, text);
-		strcat(text2, "%");
 		displayMenuLineLR(text1, text2, i + 1);
 	}
 }
@@ -605,8 +610,12 @@ void displayFlowerData(byte flower_num) {
 	char humid[DISPLAY_TEXT_WIDTH_2];
 	char text[DISPLAY_TEXT_WIDTH_2];
 	// Humidity
-	itoa(state.flower_humidity[flower_num], humid, 10);
-	strcat(humid, "%");
+	byte soil_num = flowerData[flower_num].soil_num;
+	strcpy(humid, "");
+	if (soil_num != -1) {
+		itoa(state.soil_humidity[soil_num], humid, 10);
+		strcat(humid, "%");
+	}
 	// Normal mode
 	if (flowerConnection[flower_num].connected && !flowerWateringQueueNow(flower_num)) {
 		flowerWateringTimeText(text, flower_num);

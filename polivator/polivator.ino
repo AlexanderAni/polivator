@@ -88,8 +88,10 @@ void sensorCheck() {
 		// Watering is full - Water fill sensor
 		// state.water_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 3);
 
-		// Flower humidity
-		state.flower_humidity[i] = humidity_percentage(analogRead(flowerData[i].soil_pin));
+	}
+	// Soil sensors
+	for (byte i = 0; i < sizeof(SOIL_SENSOR_PINS); i = i + 1) {
+		state.soil_humidity[i] = humidity_percentage(analogRead(SOIL_SENSOR_PINS[i]));
 	}
 	checkPowerLost();
 	checkSurroundSensors();
@@ -254,7 +256,12 @@ void taskWorker() {
 				} else {
 					// Start Watering
 					state.active_watering = i; // active watering = flower
-					state.active_water_humidity = state.flower_humidity[i]; // save humidity value before active watering
+					byte soil_num = flowerData[i].soil_num;
+					if (soil_num != -1){
+						state.active_water_humidity = state.soil_humidity[soil_num]; // save humidity value before active watering
+					} else {
+						state.active_water_humidity = 255; // No soil sensor set
+					}
 					state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
 					// Serial.print("Start watering flower ");
 					// Serial.print(i);

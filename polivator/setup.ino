@@ -64,16 +64,19 @@ void defaultState() {
 
 
 	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
-		// Default all flowers are watered
-		state.flower_humidity[i] = 100; // Default 100% not to start watering
+		// Default all flowers are never watered
 		for (byte i1 = 0; i1 < FLOWER_SCHEDULE_COUNT; i1 += 1) {
 			flowerData[i].water_time[i1] = no_time;
-			flowerData[i].water_humidity[i1] = 0;
+			flowerData[i].water_humidity[i1] = 255;
 		}
 		flowerData[i].last_time = 4;
 		tasks.water_time[i] = 0;
-		pinMode(flowerData[i].soil_pin, INPUT);
+		pinMode(flowerData[i].soil_num, INPUT);
 	}
+	for (byte i = 0; i < sizeof(SOIL_SENSOR_PINS); i = i + 1) {
+		state.soil_humidity[i] = 100; // Default 100% not to start watering
+	}
+
 	state.active_sensor = -1; // off
 	state.active_watering = -1; // off
 	// Connector pins and slots

@@ -79,6 +79,8 @@ const byte PUMP_SPEED = 3; // Speed, millilitre per second, max 255 (0.255 litre
 #define ENC_B_PIN 4
 #define LEAKAGE_INTERRUPT_PIN 2 // Leakage sensor
 
+const byte SOIL_SENSOR_PINS[5] = {A0, A1, A2, A3, A6};
+
 void stateSetup() {
 	// Water
 	// state.water_level_ml = 10000; // Water level in tank, millilitre, max 65 535 (65.5 litre)
@@ -93,7 +95,7 @@ flowerDataStruct flowerData[FLOWER_COUNT];
 flowerConnectionStruct flowerConnection[FLOWER_COUNT];
 
 const char *FLOWER_NAMES[FLOWER_COUNT] = {
-		// Quantity matches with FLOWER_COUNT=10
+		// Quantity matches with FLOWER_COUNT
 		"Chlorophy", // 0
 		"Gerbera",
 		// "Flower",
@@ -107,17 +109,17 @@ const char *FLOWER_NAMES[FLOWER_COUNT] = {
 	};
 
 void flowerSetup() {
-	// Volume, ml;
-	// Period,
+	// 1: Volume, ml;
+	// 2: Period,
 	// 0 - never
 	// 1..20 - every 1..20 hours
 	// 21..51 - every 1 - 30 days (x-20)
 	// example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
-	// Sensor sensivity, %
-	// Soil pin: A2, A3 ...
-	// Quantity matches with FLOWER_COUNT=10
-	flowerData[0] = (flowerDataStruct) {50, 12, 80, A0};
-	flowerData[1] = (flowerDataStruct) {100, 6, 80, A1};
+	// 3: Do not water if sensor is more than X%
+	// 4: Soil sensor number. Default: 0, No sensor: -1
+	// Quantity matches with FLOWER_COUNT
+	flowerData[0] = (flowerDataStruct) {50, 12, 80, 0};
+	flowerData[1] = (flowerDataStruct) {100, 6, 80, 1};
 	// flowerData[2] = (flowerDataStruct) {1000, 6, 20};
 	// flowerData[3] = (flowerDataStruct) {1000, 0, 0};
 	// flowerData[4] = (flowerDataStruct) {1000, 9, 100};
