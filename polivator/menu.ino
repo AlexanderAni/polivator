@@ -157,7 +157,7 @@ void nextPositionValue() {
 		case 4:
 		// Change sensor number
 		if (flowerData[flower_num].soil_num < (int8_t)sizeof(SOIL_SENSOR_PINS)) {
-			flowerData[flower_num].sensor += 1;
+			flowerData[flower_num].soil_num += 1;
 		}
 		break;
 		case 5:

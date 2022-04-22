@@ -189,7 +189,7 @@ void dateToText(char *text, DateTime time) {
 	}
 }
 
-void soilNumberText(char text[5], byte val) {
+void soilNumberText(char text[5], int8_t val) {
 	// Write sensor value to text
 	if (val == -1) {
 		strcpy(text, "no");
@@ -635,7 +635,7 @@ void displayFlowerData(byte flower_num) {
 	char humid[DISPLAY_TEXT_WIDTH_2];
 	char text[DISPLAY_TEXT_WIDTH_2];
 	// Humidity
-	byte soil_num = flowerData[flower_num].soil_num;
+	int8_t soil_num = flowerData[flower_num].soil_num;
 	strcpy(humid, "");
 	if (soil_num != -1) {
 		itoa(state.soil_humidity[soil_num], humid, 10);
