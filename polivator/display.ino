@@ -3,7 +3,7 @@
 #include <GyverOLED.h>
 
 #define DISPLAY_TEXT_WIDTH_3 7 // Size 3
-#define DISPLAY_TEXT_WIDTH_2 11 // Size 2
+#define DISPLAY_TEXT_WIDTH_2 10 // Size 2
 #define DISPLAY_TEXT_WIDTH 21 // Size 1
 
 
@@ -68,7 +68,7 @@ char* timeText(DateTime time) {
 char* tempText() {
 	static char temp_text[5];
 	itoa(state.temp, temp_text, 10);
-	strcat(temp_text, " C");
+	strcat(temp_text, "c");
 	return temp_text;
 }
 
@@ -204,7 +204,7 @@ void sensorValueText(char text[6], byte val) {
 		strcpy(text, "never");
 	} else {
 		itoa(val, text, 10);
-		strcat(text, " %");
+		strcat(text, "%");
 	}
 }
 
@@ -437,7 +437,7 @@ void displayDataScreen() {
 		strcpy(text1, "");
 		if (state.tempSensor == true) {
 			itoa(state.humidity, text1, 10);
-			strcat(text1, " %");
+			strcat(text1, "%");
 		}
 		if (dayTime()) {
 			strcpy(text2, "day");
@@ -592,7 +592,9 @@ void displayFlowerValue(byte flower_num) {
 			break;
 	}
 	if (state.menu_position > 2) {
-		displaySmallLineLR(text, value);
+		displaySmallLine(text, 0); // Parameter on the left
+		strcpy(text, "");
+		displaySmallLineLR(text, value, 1); // Value on the right
 	}
 }
 
