@@ -3,7 +3,7 @@
 #include <GyverOLED.h>
 
 #define DISPLAY_TEXT_WIDTH_3 7 // Size 3
-#define DISPLAY_TEXT_WIDTH_2 10 // Size 2
+#define DISPLAY_TEXT_WIDTH_2 11 // Size 2
 #define DISPLAY_TEXT_WIDTH 21 // Size 1
 
 
@@ -273,7 +273,7 @@ void displayBigLine(char* text, byte pos=0, bool indent=false) {
 
 void displayBigLineLR(char* text1, char* text2, byte pos=0) {
 	char text[DISPLAY_TEXT_WIDTH_2];
-	collectTextLR(text, text1, text2, DISPLAY_TEXT_WIDTH_2);
+	collectTextLR(text, text1, text2, DISPLAY_TEXT_WIDTH_2 - 1);
 	displayBigLine(text, pos, false); // No indent
 }
 
@@ -294,7 +294,7 @@ void displaySmallTitle(char* text, bool selected=false) {
 
 void displaySmallLR(char* text1, char* text2, bool selected=false) {
 	char text[DISPLAY_TEXT_WIDTH_2];
-	collectTextLR(text, text1, text2, DISPLAY_TEXT_WIDTH_2);
+	collectTextLR(text, text1, text2, DISPLAY_TEXT_WIDTH_2 - 1);
 	displaySmallTitle(text, selected);
 }
 
@@ -310,7 +310,7 @@ void displaySmallLine(char* text, byte pos=0, bool indent=false) {
 
 void displaySmallLineLR(char* text1, char* text2, byte pos=0) {
 	char text[DISPLAY_TEXT_WIDTH_2];
-	collectTextLR(text, text1, text2, DISPLAY_TEXT_WIDTH_2);
+	collectTextLR(text, text1, text2, DISPLAY_TEXT_WIDTH_2 - 1);
 	displaySmallLine(text, pos, false); // No indent
 }
 
