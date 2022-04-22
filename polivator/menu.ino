@@ -60,9 +60,9 @@ void pressPosition() {
 	if (state.menu_position == 0) {
 		state.menu_function = 0;
 	} else {
+		byte flower_num = state.menu_screen - 1;
 		if (state.menu_position == 2) {
 			// Water the flower
-			byte flower_num = state.menu_screen - 1;
 			char text[21];
 			char title[11];
 			strcpy(text, "Watering");
@@ -81,11 +81,15 @@ void pressPosition() {
 				setWateringTask(flower_num, millis());
 				displayMessage(title, text, 1500);
 			}
+		} else if (state.menu_position == 1) {
+			state.menu_schedule_position = 0;
+			state.menu_function = 2;
+		} else if (state.menu_position == 5) {
+			if (flowerData[flower_num].soil_num != -1) {
+				state.menu_function = 2;
+			}
 		} else {
 			// Change value
-			if (state.menu_position == 1) {
-				state.menu_schedule_position = 0;
-			}
 			state.menu_function = 2;
 		}
 	}
@@ -110,12 +114,18 @@ void prevPositionValue() {
 		}
 		break;
 		case 4:
-		// Change sensor
+		// Change sensor number
+		if (flowerData[flower_num].soil_num > -1) {
+			flowerData[flower_num].soil_num -= 1;
+		}
+		break;
+		case 5:
+		// Change sensor value
 		if (flowerData[flower_num].sensor > 0) {
 			flowerData[flower_num].sensor -= 5;
 		}
 		break;
-		case 5:
+		case 6:
 		// Change volume
 		if (flowerData[flower_num].volume > 2000) {
 			flowerData[flower_num].volume -= 500;
@@ -145,12 +155,18 @@ void nextPositionValue() {
 		}
 		break;
 		case 4:
-		// Change sensor
+		// Change sensor number
+		if (flowerData[flower_num].soil_num < (int8_t)sizeof(SOIL_SENSOR_PINS)) {
+			flowerData[flower_num].sensor += 1;
+		}
+		break;
+		case 5:
+		// Change sensor value
 		if (flowerData[flower_num].sensor < 100) {
 			flowerData[flower_num].sensor += 5;
 		}
 		break;
-		case 5:
+		case 6:
 		// Change volume
 		if (flowerData[flower_num].volume < 100) {
 			flowerData[flower_num].volume += 10;

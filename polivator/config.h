@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 1
+#define MINOR_VER 2
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
@@ -132,12 +132,13 @@ void flowerSetup() {
 
 // Menu
 
-const byte POSITION_COUNT = 5;
+const byte POSITION_COUNT = 6;
 const byte DISPLAY_POSITIONS = 4; // How many positions display
 const char *FLOWER_MENU[POSITION_COUNT] = {
 	"Show schedule",
 	"Water the flower",
 	"Period",
+	"Sensor",
 	"By sensor",
 	"Volume",
 };

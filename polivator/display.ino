@@ -189,7 +189,16 @@ void dateToText(char *text, DateTime time) {
 	}
 }
 
-void sensorValueText(char text[5], byte val) {
+void soilNumberText(char text[5], byte val) {
+	// Write sensor value to text
+	if (val == -1) {
+		strcpy(text, "no");
+	} else {
+		itoa(val + 1, text, 10);
+	}
+}
+
+void sensorValueText(char text[6], byte val) {
 	// Write sensor value to text
 	if (val == 100) {
 		strcpy(text, "never");
@@ -512,13 +521,13 @@ void displayPosition(char *text, byte pos, bool active) {
 
 void positionText(char* text, byte pos, byte flower_num) {
 	strcpy(text, FLOWER_MENU[pos]);
-	char value[5];
+	char value[DISPLAY_TEXT_WIDTH_2];
 	switch (pos) {
 		case 0:
 			// Schedule
 			break;
 		case 1:
-			// Watr the flower
+			// Water the flower
 			break;
 		case 2:
 			periodValueText(value, flowerData[flower_num].period);
@@ -526,11 +535,20 @@ void positionText(char* text, byte pos, byte flower_num) {
 			strcat(text, value);
 			break;
 		case 3:
-			sensorValueText(value, flowerData[flower_num].sensor);
+			soilNumberText(value, flowerData[flower_num].soil_num);
 			strcat(text, ": ");
 			strcat(text, value);
 			break;
 		case 4:
+			if (flowerData[flower_num].soil_num != -1) {
+				sensorValueText(value, flowerData[flower_num].sensor);
+			} else {
+				strcpy(value, "never");
+			}
+			strcat(text, ": ");
+			strcat(text, value);
+			break;
+		case 5:
 			volumeValueText(value, flowerData[flower_num].volume);
 			strcat(text, ": ");
 			strcat(text, value);
@@ -560,9 +578,16 @@ void displayFlowerValue(byte flower_num) {
 			periodValueText(value, flowerData[flower_num].period);
 			break;
 		case 4:
-			sensorValueText(value, flowerData[flower_num].sensor);
+			soilNumberText(value, flowerData[flower_num].soil_num);
 			break;
 		case 5:
+			if (flowerData[flower_num].soil_num != -1) {
+				sensorValueText(value, flowerData[flower_num].sensor);
+			} else {
+				strcpy(value, "not set");
+			}
+			break;
+		case 6:
 			volumeValueText(value, flowerData[flower_num].volume);
 			break;
 	}
