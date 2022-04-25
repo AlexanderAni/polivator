@@ -64,6 +64,26 @@ void whileAwake() {
 }
 
 void sensorCheck() {
+	leakageCheck();
+	// // Flower water sensors
+	// for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
+	// 	// Slot 0: P0
+	// 	// Slot 1: P4
+	// 	// Plate is full - Water plate fill sensor
+	// 	state.plate_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 2);
+	// 	// Watering is full - Water fill sensor
+	// 	// state.water_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 3);
+
+	// }
+	// Soil sensors
+	for (byte i = 0; i < sizeof(SOIL_SENSOR_PINS); i = i + 1) {
+		state.soil_humidity[i] = humidity_percentage(analogRead(SOIL_SENSOR_PINS[i]));
+	}
+	checkPowerLost();
+	checkSurroundSensors();
+}
+
+void leakageCheck() {
 	// Leak check
 	if ((millis() - state.leakage_time) > LEAKAGE_FINISH_DELAY) {
 		bool leak;
@@ -74,28 +94,12 @@ void sensorCheck() {
 			if (!state.water_leak) {
 				leakageDetected();
 			}
-		} else {
+		} else if (LEAKAGE_FINISH_DELAY != 0) {
 			// Turn off leakage after it has finished
 			state.water_leak = false;
 			enableInterrupts();
 		}
 	}
-	// Flower water sensors
-	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
-		// Slot 0: P0
-		// Slot 1: P4
-		// Plate is full - Water plate fill sensor
-		state.plate_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 2);
-		// Watering is full - Water fill sensor
-		// state.water_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 3);
-
-	}
-	// Soil sensors
-	for (byte i = 0; i < sizeof(SOIL_SENSOR_PINS); i = i + 1) {
-		state.soil_humidity[i] = humidity_percentage(analogRead(SOIL_SENSOR_PINS[i]));
-	}
-	checkPowerLost();
-	checkSurroundSensors();
 }
 
 void leakageInterrupt() {

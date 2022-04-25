@@ -23,7 +23,7 @@
 // 1 000 000 000 is about 11.5 days delay check
 // millis is `unsigned long type` 4 294 967 295 - 1 000 000 000 = 3 294 967 295 it is about 38 days to the next task
 #define TASK_CHECK_DELAY 1000000000 // working with millis()
-#define LEAKAGE_FINISH_DELAY 10000 // millis. Delay to check if leakage is finished
+#define LEAKAGE_FINISH_DELAY 10000 // milliseconds. Delay to check if leakage is finished. LEAKAGE_FINISH_DELAY=0 for stop forewer
 
 #define DAY_START_HOUR 9
 #define DAY_END_HOUR 23
