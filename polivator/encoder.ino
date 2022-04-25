@@ -9,12 +9,14 @@ void encSetup() {
 }
 
 void encoderInterrupt() {
+	disableInterrupts();
 	power.wakeUp();
 	if (state.sleep_mode) {
 		awake();
 		enc.resetState(); // Reset any encoder state after awake
 		wasActive();
 	}
+	enableInterrupts();
 }
 
 void encoderCheck() {
