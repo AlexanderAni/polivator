@@ -30,9 +30,11 @@ struct stateStruct {
 	bool lightSensor; // light sensor loaded
 	uint32_t last_active_time; // Time in millis()
 	uint32_t sensor_check_time; // Time in millis()
+	uint32_t water_check_time; // Time in millis()
 	byte display_upd_count; // Display update counter
 	uint32_t sleep_delay; // Sleep delay in milliseconds, max 65 535
 	// Water
+	bool water_level; // Water level
 	// uint16_t water_level_ml; // Water level in tank, millilitre, max 65 535 (65.5 litre)
 	// byte water_level_percent; // Water level in tank, 0-100%
 	// Environment

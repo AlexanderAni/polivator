@@ -455,7 +455,13 @@ void displayDataScreen() {
 			strcpy(text1, "Allowed");
 			displaySmallLine(text1, 1);
 		} else {
-			strcpy(text1, "Disabled");
+			if (state.water_leak) {
+				strcpy(text1, "Leakage");
+			} else if (!state.water_level) {
+				strcpy(text1, "No water");
+			} else {
+				strcpy(text1, "Disabled");
+			}
 			displaySmallLine(text1, 1);
 		}
 	}

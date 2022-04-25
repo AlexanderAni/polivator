@@ -10,6 +10,9 @@ void interfaceSetup() {
 	digitalWrite(PUMP_PIN2, LOW);
 	// Sensors
 	pinMode(LEAKAGE_INTERRUPT_PIN, INPUT);
+	pinMode(WATER_SENSOR_PIN, OUTPUT);
+	digitalWrite(WATER_SENSOR_PIN, LOW);
+	pinMode(WATER_LEVEL_PIN, INPUT_PULLUP);
 	// Encoder
 	encSetup();
 	// Watchdog.enable(INTERRUPT_RESET_MODE, WDT_PRESCALER_2);  // Combined watchdog, timeout ~16ms
@@ -50,9 +53,11 @@ void defaultState() {
 	state.water_allowed = true; // Water is allowed before verification
 	state.water_leak = false; // Water leak is disabled
 	state.sleep_mode = false; // Sleep mode is disabled
+	state.water_level = false; // No water default
 	state.flowerDataChanged = false;
 	state.last_active_time = millis(); // Awake from start (now)
 	state.sensor_check_time = millis() - SENSOR_CHECK_DELAY; // now
+	state.water_check_time = millis() - WATER_CHECK_DELAY; // now
 	state.leakage_time = 0;
 	// Menu
 	state.menu_function = 0; // 0-screen selector, 1-position selector, 2-position changing

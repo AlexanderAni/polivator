@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 3
+#define MINOR_VER 4
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
@@ -19,6 +19,7 @@
 #define DIM_TIME 1500 // Time to dim before going to sleep, milliseconds
 #define DISPLAY_UPDATE_COUNT 5 // Count skiped before update display
 #define SENSOR_CHECK_DELAY 5000 // Time delay for check temp humid and other sensors
+#define WATER_CHECK_DELAY 3600000 // Time delay for check water level
 // 1 000 000 000 is about 11.5 days delay check
 // millis is `unsigned long type` 4 294 967 295 - 1 000 000 000 = 3 294 967 295 it is about 38 days to the next task
 #define TASK_CHECK_DELAY 1000000000 // working with millis()
@@ -78,6 +79,9 @@ const byte PUMP_SPEED = 3; // Speed, millilitre per second, max 255 (0.255 litre
 #define ENC_A_PIN 5
 #define ENC_B_PIN 4
 #define LEAKAGE_INTERRUPT_PIN 2 // Leakage sensor
+#define WATER_SENSOR_PIN 12 // Power to activate water level sensor
+#define WATER_LEVEL_PIN A7 // Water level sensor input
+#define WATER_LEVEL_TIME 2000 // Water level wait time. Seconds
 
 #define SOIL_SENSOR_ZERO 900
 #define SOIL_SENSOR_FULL 450

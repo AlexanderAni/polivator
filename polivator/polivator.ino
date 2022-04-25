@@ -248,54 +248,57 @@ void taskWorker() {
 				char title[11];
 				strcpy(title, FLOWER_NAMES[i]);
 				char text[21];
-				if (state.plate_full[i]) {
-					// Skip watering if the flower is full of water
-					// Serial.print("Skip watering, the flower is full of water");
-					// Serial.flush();
-					stopWateringTask(i);
-					strcpy(text, "FULL");
-				} else {
-					// Start Watering
-					state.active_watering = i; // active watering = flower
-					byte soil_num = flowerData[i].soil_num;
-					if (soil_num != -1){
-						state.active_water_humidity = state.soil_humidity[soil_num]; // save humidity value before active watering
-					} else {
-						state.active_water_humidity = 255; // No soil sensor set
-					}
-					state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
-					// Serial.print("Start watering flower ");
-					// Serial.print(i);
-					// Serial.print(": for ");
-					// Serial.print(wateringDurationInSeconds(i));
-					// Serial.println(" seconds");
-					// Serial.flush();
-					if (state.sleep_mode)  {
-						awake();
-						wasActive();
-					}
-					// Open the Valve
-					if (openFlowerValve(i)) {
-						// Then start the pump
-						if (!startPump()) {
-							// If the pump has not started
-							state.active_watering = -1;
-							// Serial.println("ERROR: Pump has not started");
-							// Serial.flush();
-							strcpy(text, "PUMP ERROR");
-						} else {
-							strcpy(text, "WATERING");
-						}
-					} else {
-						// If the valve has not opened
-						state.active_watering = -1;
-						strcpy(text, "VALVE ERROR");
-						// Serial.println("ERROR: Valve has not opened");
+				waterLevelCheck();
+				if (state.water_level) {
+					if (state.plate_full[i]) {
+						// Skip watering if the flower is full of water
+						// Serial.print("Skip watering, the flower is full of water");
 						// Serial.flush();
+						stopWateringTask(i);
+						strcpy(text, "FULL");
+					} else {
+						// Start Watering
+						state.active_watering = i; // active watering = flower
+						byte soil_num = flowerData[i].soil_num;
+						if (soil_num != -1){
+							state.active_water_humidity = state.soil_humidity[soil_num]; // save humidity value before active watering
+						} else {
+							state.active_water_humidity = 255; // No soil sensor set
+						}
+						state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
+						// Serial.print("Start watering flower ");
+						// Serial.print(i);
+						// Serial.print(": for ");
+						// Serial.print(wateringDurationInSeconds(i));
+						// Serial.println(" seconds");
+						// Serial.flush();
+						if (state.sleep_mode)  {
+							awake();
+							wasActive();
+						}
+						// Open the Valve
+						if (openFlowerValve(i)) {
+							// Then start the pump
+							if (!startPump()) {
+								// If the pump has not started
+								state.active_watering = -1;
+								// Serial.println("ERROR: Pump has not started");
+								// Serial.flush();
+								strcpy(text, "PUMP ERROR");
+							} else {
+								strcpy(text, "WATERING");
+							}
+						} else {
+							// If the valve has not opened
+							state.active_watering = -1;
+							strcpy(text, "VALVE ERROR");
+							// Serial.println("ERROR: Valve has not opened");
+							// Serial.flush();
+						}
+						break;
 					}
-					break;
+					displayMessage(title, text, 1500);
 				}
-				displayMessage(title, text, 1500);
 			}
 		}
 	}
@@ -304,10 +307,10 @@ void taskWorker() {
 	if (!state.water_allowed) {
 		// Allow when no leak
 		// Allow at day time
-		if (!state.water_leak && dayTime()) {
+		if (!state.water_leak && dayTime() && state.water_level) {
 			state.water_allowed = true;
 		}
-	} else if (! dayTime()) {
+	} else if (!dayTime() || !state.water_level) {
 		state.water_allowed = false;
 	}
 }
@@ -453,12 +456,33 @@ bool stopPump() {
 void checkSurroundSensors() {
 	// Temperature and Humidity sensor
 	if ((millis() - state.sensor_check_time) > SENSOR_CHECK_DELAY) {
-		if (state.tempSensor == true) {
-			sensors_event_t humidity, temp;
-			aht.getEvent(&humidity, &temp);// Populate temp and humidity objects with fresh data
-			state.temp = int(round(temp.temperature));
-			state.humidity = int(humidity.relative_humidity);
-		}
+		humidTempCheck();
 		state.sensor_check_time = millis();
 	}
+	// Water level sensor
+	if (dayTime() && (millis() - state.water_check_time) > WATER_CHECK_DELAY) {
+		waterLevelCheck();
+		state.water_check_time = millis();
+	}
+}
+
+void humidTempCheck() {
+	if (state.tempSensor == true) {
+		sensors_event_t humidity, temp;
+		aht.getEvent(&humidity, &temp);// Populate temp and humidity objects with fresh data
+		state.temp = int(round(temp.temperature));
+		state.humidity = int(humidity.relative_humidity);
+	}
+}
+
+void waterLevelCheck() {
+	digitalWrite(WATER_SENSOR_PIN, HIGH);
+	delay(WATER_LEVEL_TIME);
+	int level = analogRead(WATER_LEVEL_PIN);
+	if (level > 512) {
+		state.water_level = true;
+	} else {
+		state.water_level = false;
+	}
+	digitalWrite(WATER_SENSOR_PIN, LOW);
 }
