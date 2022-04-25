@@ -130,6 +130,13 @@ void prevPositionValue() {
 				state.save_data = true;
 			}
 			break;
+			case 5:
+			// Change leakage finish
+			if (settings.leakage_finish_delay > 0) {
+				settings.leakage_finish_delay -= 1;
+				state.save_data = true;
+			}
+			break;
 		}
 	} else {
 		// Flower
@@ -208,6 +215,13 @@ void nextPositionValue() {
 			// Change soil sensor
 			if (settings.soil_sensor_full < settings.soil_sensor_zero - 50) {
 				settings.soil_sensor_full += 50;
+				state.save_data = true;
+			}
+			break;
+			case 5:
+			// Leakage_finish_delay
+			if (settings.leakage_finish_delay < 65535) {
+				settings.leakage_finish_delay += 1;
 				state.save_data = true;
 			}
 			break;

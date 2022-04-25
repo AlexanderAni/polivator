@@ -76,6 +76,7 @@ struct globalSettings {
 	byte day_end_hour;
 	int soil_sensor_zero;
 	int soil_sensor_full;
+	uint16_t leakage_finish_delay;
 	// uint32_t sleep_delay;
 	// uint32_t awake_time;
 	// uint32_t schedule_awake_time;

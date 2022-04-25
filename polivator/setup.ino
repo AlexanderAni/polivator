@@ -45,6 +45,7 @@ void defaultSettings() {
 	settings.day_end_hour = DAY_END_HOUR;
 	settings.soil_sensor_zero = SOIL_SENSOR_ZERO;
 	settings.soil_sensor_full = SOIL_SENSOR_FULL;
+	settings.leakage_finish_delay = LEAKAGE_FINISH_DELAY;
 }
 
 // State setup

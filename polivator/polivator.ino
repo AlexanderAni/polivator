@@ -85,7 +85,7 @@ void sensorCheck() {
 
 void leakageCheck() {
 	// Leak check
-	if ((millis() - state.leakage_time) > LEAKAGE_FINISH_DELAY) {
+	if ((millis() - state.leakage_time) > settings.leakage_finish_delay * 1000L) {
 		bool leak;
 		leak = digitalRead(LEAKAGE_INTERRUPT_PIN);
 		// Check leakage for finish

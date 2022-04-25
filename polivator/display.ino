@@ -499,25 +499,22 @@ void settingsPositionText(char* text, byte pos) {
 	switch (pos) {
 		case 0:
 			timeFromHourText(value, settings.day_start_hour);
-			strcat(text, ": ");
-			strcat(text, value);
 			break;
 		case 1:
 			timeFromHourText(value, settings.day_end_hour);
-			strcat(text, ": ");
-			strcat(text, value);
 			break;
 		case 2:
 			itoa(settings.soil_sensor_zero, value, 10);
-			strcat(text, ": ");
-			strcat(text, value);
 			break;
 		case 3:
 			itoa(settings.soil_sensor_full, value, 10);
-			strcat(text, ": ");
-			strcat(text, value);
+			break;
+		case 4:
+			itoa(settings.leakage_finish_delay, value, 10);
 			break;
 	}
+	strcat(text, ": ");
+	strcat(text, value);
 }
 
 void timeFromHourText(char text[6], byte val) {
@@ -560,6 +557,10 @@ void displaySettingsValue() {
 		case 4:
 			//	sensor
 			itoa(settings.soil_sensor_full, value, 10);
+			break;
+		case 5:
+			//	leakage finish
+			itoa(settings.leakage_finish_delay, value, 10);
 			break;
 	}
 	displaySmallLine(text, 0); // Parameter on the left

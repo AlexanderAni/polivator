@@ -23,7 +23,7 @@
 // 1 000 000 000 is about 11.5 days delay check
 // millis is `unsigned long type` 4 294 967 295 - 1 000 000 000 = 3 294 967 295 it is about 38 days to the next task
 #define TASK_CHECK_DELAY 1000000000 // working with millis()
-#define LEAKAGE_FINISH_DELAY 10000 // milliseconds. Delay to check if leakage is finished. LEAKAGE_FINISH_DELAY=0 for stop forewer
+#define LEAKAGE_FINISH_DELAY 10 // seconds. max 65 535. Delay to check if leakage is finished. LEAKAGE_FINISH_DELAY=0 for stop forewer
 
 #define DAY_START_HOUR 9
 #define DAY_END_HOUR 23
@@ -148,12 +148,13 @@ const char *FLOWER_MENU[POSITION_COUNT] = {
 	"By sensor",
 	"Volume",
 };
-const byte SETTINGS_COUNT = 4;
+const byte SETTINGS_COUNT = 5;
 const char *SETTINGS_MENU[SETTINGS_COUNT] = {
 	"Day starts",
 	"Day ends",
 	"Sensor 0%",
 	"Sensor 100%",
+	"leak ends",
 };
 
 const char FLOWER_MENU_STOP_WATERING[] = "Stop watering";
