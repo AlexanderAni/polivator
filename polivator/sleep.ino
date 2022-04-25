@@ -46,7 +46,7 @@ void goSleep() {
 	state.menu_screen = 0; // // Selected screen, max 15
 	state.menu_position = 0; // Selected position, max 15
 	state.menu_position_slide = 0;
-	if (state.flowerDataChanged) {
+	if (state.save_data) {
 		saveFlowerData();
 		resetFlowerTasks();
 	}

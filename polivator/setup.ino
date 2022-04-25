@@ -54,7 +54,7 @@ void defaultState() {
 	state.water_leak = false; // Water leak is disabled
 	state.sleep_mode = false; // Sleep mode is disabled
 	state.water_level = false; // No water default
-	state.flowerDataChanged = false;
+	state.save_data = false;
 	state.last_active_time = millis(); // Awake from start (now)
 	state.sensor_check_time = millis() - SENSOR_CHECK_DELAY; // now
 	state.water_check_time = millis() - WATER_CHECK_DELAY; // now

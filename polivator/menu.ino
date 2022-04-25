@@ -106,31 +106,34 @@ void prevPositionValue() {
 			// Change hours
 			if (settings.day_start_hour > 0) {
 				settings.day_start_hour -= 1;
+				state.save_data = true;
 			}
 			break;
 			case 2:
 			// Change hours
 			if (settings.day_end_hour > settings.day_start_hour + 1) {
 				settings.day_end_hour -= 1;
+				state.save_data = true;
 			}
 			break;
 			case 3:
 			// Change soil sensor
 			if (settings.soil_sensor_zero > settings.soil_sensor_full + 50) {
 				settings.soil_sensor_zero -= 50;
+				state.save_data = true;
 			}
 			break;
 			case 4:
 			// Change soil sensor
 			if (settings.soil_sensor_full > 0) {
 				settings.soil_sensor_full -= 50;
+				state.save_data = true;
 			}
 			break;
 		}
 	} else {
 		// Flower
 		byte flower_num = state.menu_screen - 1;
-		state.flowerDataChanged = true;
 		switch (state.menu_position) {
 			case 1:
 			// Change schedule position
@@ -142,28 +145,34 @@ void prevPositionValue() {
 			// Change period
 			if (flowerData[flower_num].period > 0) {
 				flowerData[flower_num].period -= 1;
+				state.save_data = true;
 			}
 			break;
 			case 4:
 			// Change sensor number
 			if (flowerData[flower_num].soil_num > -1) {
 				flowerData[flower_num].soil_num -= 1;
+				state.save_data = true;
 			}
 			break;
 			case 5:
 			// Change sensor value
 			if (flowerData[flower_num].sensor > 0) {
 				flowerData[flower_num].sensor -= 5;
+				state.save_data = true;
 			}
 			break;
 			case 6:
 			// Change volume
 			if (flowerData[flower_num].volume > 2000) {
 				flowerData[flower_num].volume -= 500;
+				state.save_data = true;
 			} else if (flowerData[flower_num].volume > 100) {
 				flowerData[flower_num].volume -= 100;
+				state.save_data = true;
 			} else if (flowerData[flower_num].volume > 10) {
 				flowerData[flower_num].volume -= 10;
+				state.save_data = true;
 			}
 			break;
 		}
@@ -178,31 +187,34 @@ void nextPositionValue() {
 			// Change hours
 			if (settings.day_start_hour < settings.day_end_hour - 1) {
 				settings.day_start_hour += 1;
+				state.save_data = true;
 			}
 			break;
 			case 2:
 			// Change hours
 			if (settings.day_end_hour < 24) {
 				settings.day_end_hour += 1;
+				state.save_data = true;
 			}
 			break;
 			case 3:
 			// Change soil sensor
 			if (settings.soil_sensor_zero < 1000) {
 				settings.soil_sensor_zero += 50;
+				state.save_data = true;
 			}
 			break;
 			case 4:
 			// Change soil sensor
 			if (settings.soil_sensor_full < settings.soil_sensor_zero - 50) {
 				settings.soil_sensor_full += 50;
+				state.save_data = true;
 			}
 			break;
 		}
 	} else {
 		// Flowers
 		byte flower_num = state.menu_screen - 1;
-		state.flowerDataChanged = true;
 		switch (state.menu_position) {
 			case 1:
 			// Change schedule position
@@ -214,28 +226,34 @@ void nextPositionValue() {
 			// Change period
 			if (flowerData[flower_num].period < 51) {
 				flowerData[flower_num].period += 1;
+				state.save_data = true;
 			}
 			break;
 			case 4:
 			// Change sensor number
 			if (flowerData[flower_num].soil_num < (int8_t)sizeof(SOIL_SENSOR_PINS)) {
 				flowerData[flower_num].soil_num += 1;
+				state.save_data = true;
 			}
 			break;
 			case 5:
 			// Change sensor value
 			if (flowerData[flower_num].sensor < 100) {
 				flowerData[flower_num].sensor += 5;
+				state.save_data = true;
 			}
 			break;
 			case 6:
 			// Change volume
 			if (flowerData[flower_num].volume < 100) {
 				flowerData[flower_num].volume += 10;
+				state.save_data = true;
 			} else if (flowerData[flower_num].volume < 2000) {
 				flowerData[flower_num].volume += 100;
+				state.save_data = true;
 			} else if (flowerData[flower_num].volume < 65500) {
 				flowerData[flower_num].volume += 500;
+				state.save_data = true;
 			}
 			break;
 		}
@@ -246,6 +264,7 @@ void pressPositionValue() {
 	clearDisplay();
 	if (state.menu_screen == 0) {
 		state.menu_function = 1;
+		saveData();
 	} else {
 		if (state.menu_position == 1) {
 			// From schedule
@@ -258,11 +277,15 @@ void pressPositionValue() {
 			// From values changing
 			// Back to position select
 			state.menu_function = 1;
-			saveFlowerData();
-			resetFlowerTasks();
-			char title[11] = "Saved";
-			char text[21] = " ";
-			displayMessage(title, text, 1000);
+			saveData();
 		}
 	}
+}
+
+void saveData() {
+	saveFlowerData();
+	resetFlowerTasks();
+	char title[11] = "Saved";
+	char text[21] = " ";
+	displayMessage(title, text, 1000);
 }

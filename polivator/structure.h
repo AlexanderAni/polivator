@@ -25,7 +25,7 @@ struct stateStruct {
 	bool water_allowed; // Water is allowed
 	bool water_leak; // Water leak is active
 	bool sleep_mode; // Sleep mode is active
-	bool flowerDataChanged; // Need save data to memory
+	bool save_data; // Need save data to memory
 	bool tempSensor; // temp sensor loaded
 	// bool lightSensor; // light sensor loaded
 	uint32_t last_active_time; // Time in millis()

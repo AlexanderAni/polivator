@@ -27,7 +27,7 @@ void readFlowerData() {
 		if (strcmp(name, PROG_NAME) == 0 && EEPROM.read(5 + len) == MAJOR_VER && EEPROM.read(6 + len) == MINOR_VER && EEPROM.read(7 + len) == true) {
 			EEPROM.get(8 + len, settings);
 			EEPROM.get(9 + len + settings_len, flowerData);
-			state.flowerDataChanged = false;
+			state.save_data = false;
 			strcpy(text, "Loaded data");
 		} else {
 			strcpy(text, "Missing data");
@@ -63,7 +63,7 @@ void saveFlowerData() {
 		EEPROM.put(9 + len + settings_len, flowerData);
 		// Set success flag to true after success write
 		EEPROM.update(7 + len, true);
-		state.flowerDataChanged = false;
+		state.save_data = false;
 		// Serial.println("Save Flower Data to EEPROM");
 		// Serial.flush();
 		enableInterrupts();
