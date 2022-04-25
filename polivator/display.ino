@@ -23,7 +23,7 @@ void displaySetup() {
 	display.init();
 	display.autoPrintln(false);
 	display.textMode(BUF_REPLACE);
-	Serial.println("Display loaded");
+	// Serial.println("Display loaded");
 	clearDisplay();
 	displayHello();
 }

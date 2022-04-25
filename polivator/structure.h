@@ -27,7 +27,7 @@ struct stateStruct {
 	bool sleep_mode; // Sleep mode is active
 	bool flowerDataChanged; // Need save data to memory
 	bool tempSensor; // temp sensor loaded
-	bool lightSensor; // light sensor loaded
+	// bool lightSensor; // light sensor loaded
 	uint32_t last_active_time; // Time in millis()
 	uint32_t sensor_check_time; // Time in millis()
 	uint32_t water_check_time; // Time in millis()

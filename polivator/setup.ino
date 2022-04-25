@@ -108,8 +108,8 @@ void defaultState() {
 				flowerConnection[flower_connectors[i][0]].connected = true; // Set flower connected
 				// Pin Mode
 				connectors[i].digitalWrite(P0, LOW); // Valve
-				connectors[i].pinMode(P2, INPUT); // Water plate fill sensor
-				connectors[i].pinMode(P3, INPUT); // Water fill sensor
+				// connectors[i].pinMode(P2, INPUT); // Water plate fill sensor
+				// connectors[i].pinMode(P3, INPUT); // Water fill sensor
 				// Serial.print("Slot 0: flower ");
 				// Serial.println(flower_connectors[i][0]);
 				// Serial.flush();
@@ -121,16 +121,16 @@ void defaultState() {
 				flowerConnection[flower_connectors[i][1]].connected = true; // Set flower connected
 				// Pin Mode
 				connectors[i].digitalWrite(P4, LOW); // Valve
-				connectors[i].pinMode(P6, INPUT); // Water plate fill sensor
-				connectors[i].pinMode(P7, INPUT); // Water fill sensor
+				// connectors[i].pinMode(P6, INPUT); // Water plate fill sensor
+				// connectors[i].pinMode(P7, INPUT); // Water fill sensor
 				// Serial.print("Slot 1: flower ");
 				// Serial.println(flower_connectors[i][1]);
 				// Serial.flush();
 			}
 		} else {
-			Serial.print("Connector disabled: ");
-			Serial.println(i);
-			Serial.flush();
+			// Serial.print("Connector disabled: ");
+			// Serial.println(i);
+			// Serial.flush();
 			connector_enable[i] = false;
 		}
 	}
