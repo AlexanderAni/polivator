@@ -7,10 +7,10 @@
 struct flowerDataStruct {
 	uint16_t volume; // Volume, millilitre, max 65 535 (65.5 litre)
 	byte period; // Water period, max 63
-	byte sensor; // Water by sensor, 0-100%
-	int8_t soil_num; // Soil humid sensor num. No sensor: -1
+	byte humid; // Water humid limit, 0-100%
 	DateTime water_time[FLOWER_SCHEDULE_COUNT]; // several last times of watering
 	byte water_humidity[FLOWER_SCHEDULE_COUNT]; // several last humidities before watering
+	int8_t water_temp[FLOWER_SCHEDULE_COUNT]; // several last temp before watering. -128..127, celsium
 	byte last_time; // A last time position from water_time array (circle)
 };
 
@@ -27,7 +27,7 @@ struct stateStruct {
 	bool sleep_mode; // Sleep mode is active
 	bool save_data; // Need save data to memory
 	bool tempSensor; // temp sensor loaded
-	// bool lightSensor; // light sensor loaded
+	// Time
 	uint32_t last_active_time; // Time in millis()
 	uint32_t sensor_check_time; // Time in millis()
 	uint32_t water_check_time; // Time in millis()
@@ -35,10 +35,7 @@ struct stateStruct {
 	uint32_t sleep_delay; // Sleep delay in milliseconds, max 65 535
 	// Water
 	bool water_level; // Water level
-	// uint16_t water_level_ml; // Water level in tank, millilitre, max 65 535 (65.5 litre)
-	// byte water_level_percent; // Water level in tank, 0-100%
 	// Environment
-	// byte day_part; // 0-undefined, 1-day, 2-night
 	int humidity; // percent
 	int8_t temp; // degree, -128..+127
 	// Time
@@ -49,22 +46,16 @@ struct stateStruct {
 	byte menu_position_slide; // Selected screen slide position
 	byte menu_schedule_position; // Selected position
 	// Task
-	int8_t active_sensor; // Active flower sensor. `-1` is disabled. There can be only one analog soil moisure sensor measurement at one time
-	uint32_t active_sensor_check_time; // time when flower sensor will be ready, millis()
 	int8_t active_watering; // Active watering. `-1` is disabled. There can be only one flower watering at one time
-	byte active_water_humidity; // Humidity before Active watering
+	byte active_water_humidity; // Humidity at the start of Active watering
+	byte active_water_temp; // Temperature at the start of Active watering
 	uint32_t active_watering_stop_time; // time when flower watering will stop, millis()
-	bool plate_full[10];
-	byte soil_humidity[5]; // strlen(SOIL_SENSOR_PINS)
 	uint32_t leakage_time; // Leakage was detected. millis
-	// bool water_full[10];
 
 } volatile state;
 
 struct taskStruct {
 	// FLOWER_COUNT = 10
-	// if sensor_time[flower_num] != 0 and time is now or missing - do sensor check
-	// uint32_t sensor_time[10]; // flower sensor task_time, millis()
 	// if water_time[flower_num] != 0 and time is now or missing - open the valve, pump on
 	// if water_time + water_duration is over - close valve, pump off
 	uint32_t water_time[10]; // water task time, millis()
@@ -74,12 +65,5 @@ struct taskStruct {
 struct globalSettings {
 	byte day_start_hour;
 	byte day_end_hour;
-	int soil_sensor_zero;
-	int soil_sensor_full;
 	uint16_t leakage_finish_delay;
-	// uint32_t sleep_delay;
-	// uint32_t awake_time;
-	// uint32_t schedule_awake_time;
-	// uint32_t sensor_check_delay;
-	// uint32_t leakage_finish_delay;
 } settings;

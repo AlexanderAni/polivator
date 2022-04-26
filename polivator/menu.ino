@@ -76,20 +76,14 @@ void pressPosition() {
 						strcpy(title, "Cancelled");
 						displayMessage(title, text, 1500);
 					}
-				} else if (!state.plate_full[flower_num]) {
+				} else {
 					strcpy(title, "Planned");
 					setWateringTask(flower_num, millis());
 					displayMessage(title, text, 1500);
 				}
-			} else if (state.menu_position == 1) {
-				state.menu_schedule_position = 0;
-				state.menu_function = 2;
-			} else if (state.menu_position == 5) {
-				if (flowerData[flower_num].soil_num != -1) {
-					state.menu_function = 2;
-				}
 			} else {
 				// Change value
+				state.menu_schedule_position = 0;
 				state.menu_function = 2;
 			}
 		}
@@ -117,20 +111,6 @@ void prevPositionValue() {
 			}
 			break;
 			case 3:
-			// Change soil sensor
-			if (settings.soil_sensor_zero > settings.soil_sensor_full + 50) {
-				settings.soil_sensor_zero -= 50;
-				state.save_data = true;
-			}
-			break;
-			case 4:
-			// Change soil sensor
-			if (settings.soil_sensor_full > 0) {
-				settings.soil_sensor_full -= 50;
-				state.save_data = true;
-			}
-			break;
-			case 5:
 			// Change leakage finish
 			if (settings.leakage_finish_delay > 0) {
 				settings.leakage_finish_delay -= 1;
@@ -156,20 +136,13 @@ void prevPositionValue() {
 			}
 			break;
 			case 4:
-			// Change sensor number
-			if (flowerData[flower_num].soil_num > -1) {
-				flowerData[flower_num].soil_num -= 1;
+			// Change humid value
+			if (flowerData[flower_num].humid > 0) {
+				flowerData[flower_num].humid -= 5;
 				state.save_data = true;
 			}
 			break;
 			case 5:
-			// Change sensor value
-			if (flowerData[flower_num].sensor > 0) {
-				flowerData[flower_num].sensor -= 5;
-				state.save_data = true;
-			}
-			break;
-			case 6:
 			// Change volume
 			if (flowerData[flower_num].volume > 2000) {
 				flowerData[flower_num].volume -= 500;
@@ -205,20 +178,6 @@ void nextPositionValue() {
 			}
 			break;
 			case 3:
-			// Change soil sensor
-			if (settings.soil_sensor_zero < 1000) {
-				settings.soil_sensor_zero += 50;
-				state.save_data = true;
-			}
-			break;
-			case 4:
-			// Change soil sensor
-			if (settings.soil_sensor_full < settings.soil_sensor_zero - 50) {
-				settings.soil_sensor_full += 50;
-				state.save_data = true;
-			}
-			break;
-			case 5:
 			// Leakage_finish_delay
 			if (settings.leakage_finish_delay < 65535) {
 				settings.leakage_finish_delay += 1;
@@ -244,20 +203,13 @@ void nextPositionValue() {
 			}
 			break;
 			case 4:
-			// Change sensor number
-			if (flowerData[flower_num].soil_num < (int8_t)sizeof(SOIL_SENSOR_PINS)) {
-				flowerData[flower_num].soil_num += 1;
+			// Change humid value
+			if (flowerData[flower_num].humid < 100) {
+				flowerData[flower_num].humid += 5;
 				state.save_data = true;
 			}
 			break;
 			case 5:
-			// Change sensor value
-			if (flowerData[flower_num].sensor < 100) {
-				flowerData[flower_num].sensor += 5;
-				state.save_data = true;
-			}
-			break;
-			case 6:
 			// Change volume
 			if (flowerData[flower_num].volume < 100) {
 				flowerData[flower_num].volume += 10;

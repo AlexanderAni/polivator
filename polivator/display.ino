@@ -189,17 +189,8 @@ void dateToText(char *text, DateTime time) {
 	}
 }
 
-void soilNumberText(char text[5], int8_t val) {
-	// Write sensor value to text
-	if (val == -1) {
-		strcpy(text, "no");
-	} else {
-		itoa(val + 1, text, 10);
-	}
-}
-
-void sensorValueText(char text[6], byte val) {
-	// Write sensor value to text
+void humidValueText(char text[6], byte val) {
+	// Write humid value to text
 	if (val == 100) {
 		strcpy(text, "never");
 	} else {
@@ -479,6 +470,7 @@ void displaySettingsScreen() {
 		case 1:
 			// Position change
 			for (byte i = state.menu_position_slide; i < state.menu_position_slide + DISPLAY_POSITIONS; i = i + 1) {
+				if (i > SETTINGS_COUNT - 1) break;
 				bool active = false;
 				// Is Active
 				if (i == state.menu_position - 1) {active = true;};
@@ -504,12 +496,6 @@ void settingsPositionText(char* text, byte pos) {
 			timeFromHourText(value, settings.day_end_hour);
 			break;
 		case 2:
-			itoa(settings.soil_sensor_zero, value, 10);
-			break;
-		case 3:
-			itoa(settings.soil_sensor_full, value, 10);
-			break;
-		case 4:
 			itoa(settings.leakage_finish_delay, value, 10);
 			strcat(value, "s");
 			break;
@@ -552,27 +538,12 @@ void displaySettingsValue() {
 			timeFromHourText(value, settings.day_end_hour);
 			break;
 		case 3:
-			//	sensor
-			itoa(settings.soil_sensor_zero, value, 10);
-			break;
-		case 4:
-			//	sensor
-			itoa(settings.soil_sensor_full, value, 10);
-			break;
-		case 5:
 			//	leakage finish
 			itoa(settings.leakage_finish_delay, value, 10);
 			strcat(value, "s");
 			break;
 	}
 	displaySmallLine(text, 0); // Parameter on the left
-	if (state.menu_position == 3 || state.menu_position == 4) {
-		int sensor_value = analogRead(SOIL_SENSOR_PINS[0]);
-		char sensor_text[4];
-		itoa(sensor_value, sensor_text, 10);
-		strcat(value, "|now");
-		strcat(value, sensor_text);
-	}
 	displaySmallLine(value, 1); // Value on the right
 }
 
@@ -602,10 +573,6 @@ void displayFlowerScreen(byte flower_num) {
 					// Watering
 					// Stop watering the flower
 					strcpy(position_text, FLOWER_MENU_STOP_WATERING);
-				} else if ((i == 1 && state.plate_full[flower_num])) {
-					// Watering
-					// Already full of water
-					strcpy(position_text, FLOWER_MENU_FULL_OF_WATER);
 				} else {
 					positionText(position_text, i, flower_num); // text preparation
 				}
@@ -654,20 +621,11 @@ void positionText(char* text, byte pos, byte flower_num) {
 			strcat(text, value);
 			break;
 		case 3:
-			soilNumberText(value, flowerData[flower_num].soil_num);
+			humidValueText(value, flowerData[flower_num].humid);
 			strcat(text, ": ");
 			strcat(text, value);
 			break;
 		case 4:
-			if (flowerData[flower_num].soil_num != -1) {
-				sensorValueText(value, flowerData[flower_num].sensor);
-			} else {
-				strcpy(value, "never");
-			}
-			strcat(text, ": ");
-			strcat(text, value);
-			break;
-		case 5:
 			volumeValueText(value, flowerData[flower_num].volume);
 			strcat(text, ": ");
 			strcat(text, value);
@@ -697,16 +655,9 @@ void displayFlowerValue(byte flower_num) {
 			periodValueText(value, flowerData[flower_num].period);
 			break;
 		case 4:
-			soilNumberText(value, flowerData[flower_num].soil_num);
+			humidValueText(value, flowerData[flower_num].humid);
 			break;
 		case 5:
-			if (flowerData[flower_num].soil_num != -1) {
-				sensorValueText(value, flowerData[flower_num].sensor);
-			} else {
-				strcpy(value, "not set");
-			}
-			break;
-		case 6:
 			volumeValueText(value, flowerData[flower_num].volume);
 			break;
 	}
@@ -738,30 +689,27 @@ void displaySchedule(byte flower_num) {
 		}
 
 		dateToText(text, flowerData[flower_num].water_time[last_time]);
-		itoa(i + state.menu_schedule_position + 1, text1, 10); // Number
+		strcpy(text2, "");
+		// Temp
+		byte temp = flowerData[flower_num].water_temp[last_time];
+		if (temp != 127) { // No temp
+			itoa(temp, text2, 10); // Temp
+			strcat(text2, "c ");
+		}
+		// Humid
 		byte humidity = flowerData[flower_num].water_humidity[last_time];
-		if (humidity == 255) { // No humidity
-			strcpy(text2, "");
-		} else {
-			itoa(humidity, text2, 10); // Humidity percentage
+		if (humidity != 255) { // No humidity
+			char text_humid[5];
+			itoa(humidity, text_humid, 10); // Humidity percentage
+			strcat(text2, text_humid);
 			strcat(text2, "%");
 		}
-		strcat(text1, " ");
-		strcat(text1, text);
-		displayMenuLineLR(text1, text2, i + 1);
+		displayMenuLineLR(text, text2, i + 1);
 	}
 }
 
 void displayFlowerData(byte flower_num) {
-	char humid[DISPLAY_TEXT_WIDTH_2];
 	char text[DISPLAY_TEXT_WIDTH_2];
-	// Humidity
-	int8_t soil_num = flowerData[flower_num].soil_num;
-	strcpy(humid, "");
-	if (soil_num != -1) {
-		itoa(state.soil_humidity[soil_num], humid, 10);
-		strcat(humid, "%");
-	}
 	// Normal mode
 	if (flowerConnection[flower_num].connected && !flowerWateringQueueNow(flower_num)) {
 		flowerWateringTimeText(text, flower_num);
@@ -769,7 +717,6 @@ void displayFlowerData(byte flower_num) {
 	} else {
 		flowerAction(text, flower_num);
 	}
-	displaySmallLine(humid, 0);
 	displaySmallLine(text, 1);
 }
 

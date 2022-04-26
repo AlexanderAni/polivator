@@ -65,20 +65,6 @@ void whileAwake() {
 
 void sensorCheck() {
 	leakageCheck();
-	// // Flower water sensors
-	// for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
-	// 	// Slot 0: P0
-	// 	// Slot 1: P4
-	// 	// Plate is full - Water plate fill sensor
-	// 	state.plate_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 2);
-	// 	// Watering is full - Water fill sensor
-	// 	// state.water_full[i] = connectors[flowerConnection[i].connector].digitalRead(flowerConnection[i].conn_slot * 4 + 3);
-
-	// }
-	// Soil sensors
-	for (byte i = 0; i < sizeof(SOIL_SENSOR_PINS); i = i + 1) {
-		state.soil_humidity[i] = humidity_percentage(analogRead(SOIL_SENSOR_PINS[i]));
-	}
 	checkPowerLost();
 	checkSurroundSensors();
 }
@@ -111,18 +97,6 @@ void leakageInterrupt() {
 		wasActive();
 		enableInterrupts();
 	}
-}
-
-byte humidity_percentage(int humidity) {
-	// Calculate humidity 0-100%
-	// Soil sensor (tlc555, 5v)
-	// Values from 950 to 400
-	if (humidity < settings.soil_sensor_full) {
-		return 100;
-	} else if (humidity > settings.soil_sensor_zero) {
-		return 0;
-	}
-	return map(humidity, settings.soil_sensor_zero, settings.soil_sensor_full, 0, 100);
 }
 
 void setWateringTask(byte flower_num, uint32_t time, int duration=0) {
@@ -216,15 +190,8 @@ void taskWorker() {
 	// Watering
 	// state.active_watering is zero if nothing is active
 	if (state.active_watering != -1) {
-		// Stop active watering if flower is full of water
-		if (state.plate_full[state.active_watering]) {
-			stopWateringTask(state.active_watering);
-			// Serial.println("Stopped by water sensor");
-			// Serial.flush();
-			stopActiveWatering();
-		}
-
 		if ((millis() - state.active_watering_stop_time) < TASK_CHECK_DELAY) { // now >= water time
+			// Stop watering by time
 			// state.active_watering = flower
 			stopWateringTask(state.active_watering);
 			// Serial.println("Watering time is up");
@@ -257,54 +224,42 @@ void taskWorker() {
 				char text[21];
 				waterLevelCheck();
 				if (state.water_level) {
-					if (state.plate_full[i]) {
-						// Skip watering if the flower is full of water
-						// Serial.print("Skip watering, the flower is full of water");
-						// Serial.flush();
-						stopWateringTask(i);
-						strcpy(text, "FULL");
-					} else {
-						// Start Watering
-						state.active_watering = i; // active watering = flower
-						byte soil_num = flowerData[i].soil_num;
-						if (soil_num != -1){
-							state.active_water_humidity = state.soil_humidity[soil_num]; // save humidity value before active watering
-						} else {
-							state.active_water_humidity = 255; // No soil sensor set
-						}
-						state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
-						// Serial.print("Start watering flower ");
-						// Serial.print(i);
-						// Serial.print(": for ");
-						// Serial.print(wateringDurationInSeconds(i));
-						// Serial.println(" seconds");
-						// Serial.flush();
-						if (state.sleep_mode)  {
-							awake();
-							wasActive();
-						}
-						// Open the Valve
-						if (openFlowerValve(i)) {
-							// Then start the pump
-							if (!startPump()) {
-								// If the pump has not started
-								state.active_watering = -1;
-								// Serial.println("ERROR: Pump has not started");
-								// Serial.flush();
-								strcpy(text, "PUMP ERROR");
-							} else {
-								strcpy(text, "WATERING");
-							}
-						} else {
-							// If the valve has not opened
+					// Start Watering
+					state.active_watering = i; // active watering = flower
+					state.active_water_humidity = state.humidity; // save humidity value before active watering
+					state.active_water_temp = state.temp; // save temperature value before active watering
+					state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
+					// Serial.print("Start watering flower ");
+					// Serial.print(i);
+					// Serial.print(": for ");
+					// Serial.print(wateringDurationInSeconds(i));
+					// Serial.println(" seconds");
+					// Serial.flush();
+					if (state.sleep_mode)  {
+						awake();
+						wasActive();
+					}
+					// Open the Valve
+					if (openFlowerValve(i)) {
+						// Then start the pump
+						if (!startPump()) {
+							// If the pump has not started
 							state.active_watering = -1;
-							strcpy(text, "VALVE ERROR");
-							// Serial.println("ERROR: Valve has not opened");
+							// Serial.println("ERROR: Pump has not started");
 							// Serial.flush();
+							strcpy(text, "PUMP ERROR");
+						} else {
+							strcpy(text, "WATERING");
 						}
-						break;
+					} else {
+						// If the valve has not opened
+						state.active_watering = -1;
+						strcpy(text, "VALVE ERROR");
+						// Serial.println("ERROR: Valve has not opened");
+						// Serial.flush();
 					}
 					displayMessage(title, text, 1500);
+					break;
 				}
 			}
 		}
@@ -346,6 +301,7 @@ void saveWaterTimeAndHumidity(byte flower_num, DateTime time) {
 	}
 	flowerData[flower_num].water_time[last_time] = rtc.getTime();
 	flowerData[flower_num].water_humidity[last_time] = state.active_water_humidity;
+	flowerData[flower_num].water_temp[last_time] = state.active_water_temp;
 	flowerData[flower_num].last_time = last_time;
 }
 

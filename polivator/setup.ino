@@ -43,8 +43,6 @@ void powerSetup() {
 void defaultSettings() {
 	settings.day_start_hour = DAY_START_HOUR;
 	settings.day_end_hour = DAY_END_HOUR;
-	settings.soil_sensor_zero = SOIL_SENSOR_ZERO;
-	settings.soil_sensor_full = SOIL_SENSOR_FULL;
 	settings.leakage_finish_delay = LEAKAGE_FINISH_DELAY;
 }
 
@@ -82,16 +80,12 @@ void defaultState() {
 		for (byte i1 = 0; i1 < FLOWER_SCHEDULE_COUNT; i1 += 1) {
 			flowerData[i].water_time[i1] = no_time;
 			flowerData[i].water_humidity[i1] = 255;
+			flowerData[i].water_temp[i1] = 127;
 		}
-		flowerData[i].last_time = 4;
+		flowerData[i].last_time = 0;
 		tasks.water_time[i] = 0;
-		pinMode(flowerData[i].soil_num, INPUT);
-	}
-	for (byte i = 0; i < sizeof(SOIL_SENSOR_PINS); i = i + 1) {
-		state.soil_humidity[i] = 100; // Default 100% not to start watering
 	}
 
-	state.active_sensor = -1; // off
 	state.active_watering = -1; // off
 	// Connector pins and slots
 	for (byte i = 0; i < CONNECTORS_NUM; i = i + 1) {
@@ -109,8 +103,6 @@ void defaultState() {
 				flowerConnection[flower_connectors[i][0]].connected = true; // Set flower connected
 				// Pin Mode
 				connectors[i].digitalWrite(P0, LOW); // Valve
-				// connectors[i].pinMode(P2, INPUT); // Water plate fill sensor
-				// connectors[i].pinMode(P3, INPUT); // Water fill sensor
 				// Serial.print("Slot 0: flower ");
 				// Serial.println(flower_connectors[i][0]);
 				// Serial.flush();
@@ -122,8 +114,6 @@ void defaultState() {
 				flowerConnection[flower_connectors[i][1]].connected = true; // Set flower connected
 				// Pin Mode
 				connectors[i].digitalWrite(P4, LOW); // Valve
-				// connectors[i].pinMode(P6, INPUT); // Water plate fill sensor
-				// connectors[i].pinMode(P7, INPUT); // Water fill sensor
 				// Serial.print("Slot 1: flower ");
 				// Serial.println(flower_connectors[i][1]);
 				// Serial.flush();

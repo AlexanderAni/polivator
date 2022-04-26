@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 4
+#define MINOR_VER 5
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
@@ -83,10 +83,6 @@ const byte PUMP_SPEED = 3; // Speed, millilitre per second, max 255 (0.255 litre
 #define WATER_LEVEL_PIN A7 // Water level sensor input
 #define WATER_LEVEL_TIME 2000 // Water level wait time. Seconds
 
-#define SOIL_SENSOR_ZERO 900
-#define SOIL_SENSOR_FULL 450
-const byte SOIL_SENSOR_PINS[5] = {A0, A1, A2, A3, A6};
-
 void stateSetup() {
 	// Water
 	// state.water_level_ml = 10000; // Water level in tank, millilitre, max 65 535 (65.5 litre)
@@ -122,10 +118,9 @@ void flowerSetup() {
 	// 21..51 - every 1 - 30 days (x-20)
 	// example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
 	// 3: Do not water if sensor is more than X%
-	// 4: Soil sensor number. Default: 0, No sensor: -1
 	// Quantity matches with FLOWER_COUNT
-	flowerData[0] = (flowerDataStruct) {50, 12, 80, 0};
-	flowerData[1] = (flowerDataStruct) {100, 6, 80, 1};
+	flowerData[0] = (flowerDataStruct) {50, 12, 50};
+	flowerData[1] = (flowerDataStruct) {50, 12, 50};
 	// flowerData[2] = (flowerDataStruct) {1000, 6, 20};
 	// flowerData[3] = (flowerDataStruct) {1000, 0, 0};
 	// flowerData[4] = (flowerDataStruct) {1000, 9, 100};
@@ -138,27 +133,23 @@ void flowerSetup() {
 
 // Menu
 
-const byte POSITION_COUNT = 6;
+const byte POSITION_COUNT = 5;
 const byte DISPLAY_POSITIONS = 4; // How many positions display
 const char *FLOWER_MENU[POSITION_COUNT] = {
 	"Show schedule",
 	"Water the flower",
 	"Period",
-	"Sensor",
-	"By sensor",
+	"humid limit",
 	"Volume",
 };
-const byte SETTINGS_COUNT = 5;
+const byte SETTINGS_COUNT = 3;
 const char *SETTINGS_MENU[SETTINGS_COUNT] = {
 	"Day starts",
 	"Day ends",
-	"Sensor 0%",
-	"Sensor 100%",
 	"leak ends",
 };
 
 const char FLOWER_MENU_STOP_WATERING[] = "Stop watering";
-const char FLOWER_MENU_FULL_OF_WATER[] = "Full of water  ";
 
 // Time
 
