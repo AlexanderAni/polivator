@@ -189,12 +189,17 @@ void dateToText(char *text, DateTime time) {
 	}
 }
 
-void humidValueText(char text[6], byte val) {
+void humidValueText(char text[8], byte val) {
+	char val_text[5];
 	// Write humid value to text
 	if (val == 100) {
-		strcpy(text, "never");
+		strcpy(text, "allways");
+	} else if (val == 0) {
+		strcpy(text, "if dry");
 	} else {
-		itoa(val, text, 10);
+		itoa(val, val_text, 10);
+		strcpy(text, "<");
+		strcat(text, val_text);
 		strcat(text, "%");
 	}
 }
@@ -710,6 +715,16 @@ void displaySchedule(byte flower_num) {
 
 void displayFlowerData(byte flower_num) {
 	char text[DISPLAY_TEXT_WIDTH_2];
+	if (state.humidity > flowerData[flower_num].humid) {
+		char humid[5];
+		strcpy(text, "humid >");
+		itoa(flowerData[flower_num].humid, humid, 10);
+		strcat(text, humid);
+		strcat(text, "%");
+	} else {
+		strcpy(text, "");
+	}
+	displaySmallLine(text, 0);
 	// Normal mode
 	if (flowerConnection[flower_num].connected && !flowerWateringQueueNow(flower_num)) {
 		flowerWateringTimeText(text, flower_num);

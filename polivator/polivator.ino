@@ -218,7 +218,7 @@ void taskWorker() {
 		// Check next water task for each flower
 		for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
 			// Set active
-			if (flowerWateringQueueNow(i)) {
+			if (flowerWateringQueueNow(i) && state.humidity <= flowerData[i].humid) {
 				char title[11];
 				strcpy(title, FLOWER_NAMES[i]);
 				char text[21];

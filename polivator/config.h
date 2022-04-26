@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 5
+#define MINOR_VER 6
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
