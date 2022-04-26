@@ -75,9 +75,9 @@ const byte PUMP_SPEED = 3; // Speed, millilitre per second, max 255 (0.255 litre
 // Pins
 #define PUMP_PIN 7 // Pump
 #define PUMP_PIN2 6 // Pump GND
-#define ENC_SW_PIN 3 // With interrupt
+#define ENC_SW_PIN 4
 #define ENC_A_PIN 5
-#define ENC_B_PIN 4
+#define ENC_B_PIN 3 // With interrupt
 #define LEAKAGE_INTERRUPT_PIN 2 // Leakage sensor
 #define WATER_SENSOR_PIN 12 // Power to activate water level sensor
 #define WATER_LEVEL_PIN A7 // Water level sensor input
