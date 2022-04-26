@@ -511,6 +511,7 @@ void settingsPositionText(char* text, byte pos) {
 			break;
 		case 4:
 			itoa(settings.leakage_finish_delay, value, 10);
+			strcat(value, "s");
 			break;
 	}
 	strcat(text, ": ");
@@ -561,10 +562,11 @@ void displaySettingsValue() {
 		case 5:
 			//	leakage finish
 			itoa(settings.leakage_finish_delay, value, 10);
+			strcat(value, "s");
 			break;
 	}
 	displaySmallLine(text, 0); // Parameter on the left
-	if (state.menu_position > 2) {
+	if (state.menu_position == 3 || state.menu_position == 4) {
 		int sensor_value = analogRead(SOIL_SENSOR_PINS[0]);
 		char sensor_text[4];
 		itoa(sensor_value, sensor_text, 10);

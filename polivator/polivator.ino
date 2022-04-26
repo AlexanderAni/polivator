@@ -94,7 +94,7 @@ void leakageCheck() {
 			if (!state.water_leak) {
 				leakageDetected();
 			}
-		} else if (LEAKAGE_FINISH_DELAY != 0) {
+		} else if (settings.leakage_finish_delay != 0) {
 			// Turn off leakage after it has finished
 			state.water_leak = false;
 			enableInterrupts();
@@ -103,11 +103,14 @@ void leakageCheck() {
 }
 
 void leakageInterrupt() {
-	disableInterrupts();
 	if (!state.water_leak) {
-		leakageDetected();
+		disableInterrupts();
+		// leakageDetected();
+		power.wakeUp();
+		awake();
+		wasActive();
+		enableInterrupts();
 	}
-	enableInterrupts();
 }
 
 byte humidity_percentage(int humidity) {
@@ -351,6 +354,8 @@ void leakageDetected() {
 	char title[11];
 	char text[21];
 	power.wakeUp();
+	awake();
+	wasActive();
 	state.water_allowed = false;
 	state.water_leak = true;
 	state.leakage_time = millis();

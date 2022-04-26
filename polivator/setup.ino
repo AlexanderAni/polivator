@@ -21,15 +21,15 @@ void interfaceSetup() {
 void disableInterrupts() {
 	// Detach interrupt for reading buttons
 	detachInterrupt(digitalPinToInterrupt(ENC_SW_PIN));
-	// detachInterrupt(digitalPinToInterrupt(LEAKAGE_INTERRUPT_PIN));
+	detachInterrupt(digitalPinToInterrupt(LEAKAGE_INTERRUPT_PIN));
 }
 
 void enableInterrupts() {
 	// Attach interrupt for reading buttons
 	attachInterrupt(digitalPinToInterrupt(ENC_SW_PIN), encoderInterrupt, RISING);
-	// if (!state.water_leak) {
-	// 	attachInterrupt(digitalPinToInterrupt(LEAKAGE_INTERRUPT_PIN), leakageInterrupt, RISING);
-	// }
+	if (!state.water_leak) {
+		attachInterrupt(digitalPinToInterrupt(LEAKAGE_INTERRUPT_PIN), leakageInterrupt, RISING);
+	}
 }
 
 void powerSetup() {
