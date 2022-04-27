@@ -57,7 +57,14 @@ void pressPosition() {
 	} else {
 		if (state.menu_screen == 0) {
 			// Settings screen
-			state.menu_function = 2;
+			if (state.menu_position == 4) {
+				// Check pump by water 200 ml
+				check_pump_speed();
+			} else {
+				// Change settings
+				state.menu_function = 2;
+			}
+
 		} else {
 			// Flower screen
 			byte flower_num = state.menu_screen - 1;
@@ -111,6 +118,13 @@ void prevPositionValue() {
 			}
 			break;
 			case 3:
+			// Change pump speed
+			if (settings.pump_speed > 0) {
+				settings.pump_speed -= 1;
+				state.save_data = true;
+			}
+			break;
+			case 5:
 			// Change leakage finish
 			if (settings.leakage_finish_delay > 0) {
 				settings.leakage_finish_delay -= 1;
@@ -178,6 +192,13 @@ void nextPositionValue() {
 			}
 			break;
 			case 3:
+			// Pump speed
+			if (settings.pump_speed < 255) {
+				settings.pump_speed += 1;
+				state.save_data = true;
+			}
+			break;
+			case 5:
 			// Leakage_finish_delay
 			if (settings.leakage_finish_delay < 65535) {
 				settings.leakage_finish_delay += 1;

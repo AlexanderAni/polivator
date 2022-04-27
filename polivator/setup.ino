@@ -43,6 +43,7 @@ void powerSetup() {
 void defaultSettings() {
 	settings.day_start_hour = DAY_START_HOUR;
 	settings.day_end_hour = DAY_END_HOUR;
+	settings.pump_speed = PUMP_SPEED;
 	settings.leakage_finish_delay = LEAKAGE_FINISH_DELAY;
 }
 

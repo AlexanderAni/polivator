@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 6
+#define MINOR_VER 7
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
@@ -69,8 +69,7 @@ boolean connector_enable[CONNECTORS_NUM];
 #define SPI_CS_PIN    10
 
 // Water Tank
-const int TANK_VOLUME = 3000; // Volume, millilitre, max 65 535 (65.5 litre)
-const byte PUMP_SPEED = 3; // Speed, millilitre per second, max 255 (0.255 litre)
+#define PUMP_SPEED 3 // Speed, millilitre per second, max 255 (0.255 litre)
 
 // Pins
 #define PUMP_PIN 7 // Pump
@@ -142,10 +141,12 @@ const char *FLOWER_MENU[POSITION_COUNT] = {
 	"humid limit",
 	"Volume",
 };
-const byte SETTINGS_COUNT = 3;
+const byte SETTINGS_COUNT = 5;
 const char *SETTINGS_MENU[SETTINGS_COUNT] = {
 	"Day starts",
 	"Day ends",
+	"Pump speed",
+	"Check pump 200ml",
 	"leak ends",
 };
 

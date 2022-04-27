@@ -493,20 +493,27 @@ void displaySettingsScreen() {
 void settingsPositionText(char* text, byte pos) {
 	strcpy(text, SETTINGS_MENU[pos]);
 	char value[DISPLAY_TEXT_WIDTH_2];
-	switch (pos) {
-		case 0:
-			timeFromHourText(value, settings.day_start_hour);
-			break;
-		case 1:
-			timeFromHourText(value, settings.day_end_hour);
-			break;
-		case 2:
-			itoa(settings.leakage_finish_delay, value, 10);
-			strcat(value, "s");
-			break;
+	if (pos != 3) {
+		switch (pos) {
+			case 0:
+				timeFromHourText(value, settings.day_start_hour);
+				break;
+			case 1:
+				timeFromHourText(value, settings.day_end_hour);
+				break;
+			case 2:
+				//	Pump speed
+				itoa(settings.pump_speed, value, 10);
+				strcat(value, "ml/sec");
+				break;
+			case 4:
+				itoa(settings.leakage_finish_delay, value, 10);
+				strcat(value, "s");
+				break;
+		}
+		strcat(text, ": ");
+		strcat(text, value);
 	}
-	strcat(text, ": ");
-	strcat(text, value);
 }
 
 void timeFromHourText(char text[6], byte val) {
@@ -543,6 +550,11 @@ void displaySettingsValue() {
 			timeFromHourText(value, settings.day_end_hour);
 			break;
 		case 3:
+			//	Pump speed
+			itoa(settings.pump_speed, value, 10);
+			strcat(value, "ml/sec");
+			break;
+		case 5:
 			//	leakage finish
 			itoa(settings.leakage_finish_delay, value, 10);
 			strcat(value, "s");

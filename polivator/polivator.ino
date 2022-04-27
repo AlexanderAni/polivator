@@ -182,7 +182,7 @@ int periodHourValue(byte period) {
 }
 
 int wateringDurationInSeconds(byte flower_num) {
-	return flowerData[flower_num].volume / PUMP_SPEED;
+	return flowerData[flower_num].volume / settings.pump_speed;
 }
 
 
@@ -450,4 +450,30 @@ void waterLevelCheck() {
 		state.water_level = false;
 	}
 	digitalWrite(WATER_SENSOR_PIN, LOW);
+}
+
+void check_pump_speed() {
+	// Water 200 ml
+	char title[11];
+	char text[21];
+	char time_text[21];
+	int time = 200 / settings.pump_speed;
+	strcpy(title, "Pump check");
+	strcpy(text, "200ml | ");
+	itoa(time, time_text, 10);
+	strcat(text, time_text);
+	strcat(text, "s");
+	displayMessage(title, text, 2000);
+
+	strcpy(title, FLOWER_NAMES[0]);
+	strcpy(text, "Watering ...");
+	displayMessage(title, text, 0);
+	// Water check
+	openFlowerValve(0);
+	startPump();
+	delay(time * 1000L);
+	stopPump();
+	closeFlowerValve(0);
+	strcpy(text, "Finished");
+	displayMessage(title, text, 2000);
 }

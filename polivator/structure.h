@@ -65,5 +65,6 @@ struct taskStruct {
 struct globalSettings {
 	byte day_start_hour;
 	byte day_end_hour;
+	byte pump_speed;
 	uint16_t leakage_finish_delay;
 } settings;
