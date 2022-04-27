@@ -12,13 +12,16 @@ void setup() {
 	state.memory_allowed = true;
 	defaultSettings();
 	displaySetup();
+	displayHello();
 	// rtcSetupTime(); // time autosetup by compilation time
 	rtcSetup();
+	displayHello();
 	flowerSetup();
 	defaultState();
 	readFlowerData();
 	stateSetup();
 	sensorSetup();
+	displayHello();
 	powerSetup();
 	// Start
 	interfaceSetup();
@@ -224,42 +227,46 @@ void taskWorker() {
 				char text[21];
 				waterLevelCheck();
 				if (state.water_level) {
-					// Start Watering
-					state.active_watering = i; // active watering = flower
-					state.active_water_humidity = state.humidity; // save humidity value before active watering
-					state.active_water_temp = state.temp; // save temperature value before active watering
-					state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
-					// Serial.print("Start watering flower ");
-					// Serial.print(i);
-					// Serial.print(": for ");
-					// Serial.print(wateringDurationInSeconds(i));
-					// Serial.println(" seconds");
-					// Serial.flush();
-					if (state.sleep_mode)  {
-						awake();
-						wasActive();
-					}
-					// Open the Valve
-					if (openFlowerValve(i)) {
-						// Then start the pump
-						if (!startPump()) {
-							// If the pump has not started
-							state.active_watering = -1;
-							// Serial.println("ERROR: Pump has not started");
-							// Serial.flush();
-							strcpy(text, "PUMP ERROR");
-						} else {
-							strcpy(text, "WATERING");
-						}
-					} else {
-						// If the valve has not opened
-						state.active_watering = -1;
-						strcpy(text, "VALVE ERROR");
-						// Serial.println("ERROR: Valve has not opened");
+					// Water Sensor check
+					flowerWaterSensorCheck(i);
+					if (!state.flower_water_sensor[i]) {
+						// Start Watering
+						state.active_watering = i; // active watering = flower
+						state.active_water_humidity = state.humidity; // save humidity value before active watering
+						state.active_water_temp = state.temp; // save temperature value before active watering
+						state.active_watering_stop_time = millis() + (long)tasks.water_duration[i] * 1000;
+						// Serial.print("Start watering flower ");
+						// Serial.print(i);
+						// Serial.print(": for ");
+						// Serial.print(wateringDurationInSeconds(i));
+						// Serial.println(" seconds");
 						// Serial.flush();
+						if (state.sleep_mode)  {
+							awake();
+							wasActive();
+						}
+						// Open the Valve
+						if (openFlowerValve(i)) {
+							// Then start the pump
+							if (!startPump()) {
+								// If the pump has not started
+								state.active_watering = -1;
+								// Serial.println("ERROR: Pump has not started");
+								// Serial.flush();
+								strcpy(text, "PUMP ERROR");
+							} else {
+								strcpy(text, "WATERING");
+							}
+						} else {
+							// If the valve has not opened
+							state.active_watering = -1;
+							strcpy(text, "VALVE ERROR");
+							// Serial.println("ERROR: Valve has not opened");
+							// Serial.flush();
+						}
+						displayMessage(title, text, 1500);
+						break;
 					}
-					displayMessage(title, text, 1500);
-					break;
 				}
 			}
 		}
@@ -357,7 +364,8 @@ bool openFlowerValve(byte flower_num) {
 	if (flowerConnection[flower_num].connected) {
 		// Slot 0: P0
 		// Slot 1: P4
-		connectors[flowerConnection[flower_num].connector].digitalWrite(flowerConnection[flower_num].conn_slot * 4, HIGH);
+		byte slot = flowerConnection[flower_num].conn_slot  * 4;
+		connectors[flowerConnection[flower_num].connector].digitalWrite(slot, HIGH);
 	} else {
 		return false;
 	}
@@ -374,7 +382,8 @@ bool closeFlowerValve(byte flower_num) {
 	if (flowerConnection[flower_num].connected) {
 		// Slot 0: P0
 		// Slot 1: P4
-		connectors[flowerConnection[flower_num].connector].digitalWrite(flowerConnection[flower_num].conn_slot * 4, LOW);
+		byte slot = flowerConnection[flower_num].conn_slot  * 4;
+		connectors[flowerConnection[flower_num].connector].digitalWrite(slot, LOW);
 	} else {
 		return false;
 	}
@@ -427,6 +436,9 @@ void checkSurroundSensors() {
 	// Water level sensor
 	if (dayTime() && (millis() - state.water_check_time) > WATER_CHECK_DELAY) {
 		waterLevelCheck();
+		for (byte i = 0; i < FLOWER_COUNT; i++) {
+			flowerWaterSensorCheck(i);
+		}
 		state.water_check_time = millis();
 	}
 }
@@ -450,6 +462,18 @@ void waterLevelCheck() {
 		state.water_level = false;
 	}
 	digitalWrite(WATER_SENSOR_PIN, LOW);
+}
+
+void flowerWaterSensorCheck(byte flower_num) {
+	byte slot = flowerConnection[flower_num].conn_slot  * 4;
+	// Sensor on
+	connectors[flowerConnection[flower_num].connector].digitalWrite(slot + 1, HIGH);
+	delay(20);
+	// Sensor check
+	state.flower_water_sensor[flower_num] = connectors[flowerConnection[flower_num].connector].digitalRead(slot + 2);
+	// Sensor off
+	connectors[flowerConnection[flower_num].connector].digitalWrite(slot + 1, LOW);
+	delay(20);
 }
 
 void check_pump_speed() {

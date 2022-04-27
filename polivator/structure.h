@@ -35,6 +35,7 @@ struct stateStruct {
 	uint32_t sleep_delay; // Sleep delay in milliseconds, max 65 535
 	// Water
 	bool water_level; // Water level
+	bool flower_water_sensor[10]; // Flower is full of water
 	// Environment
 	int humidity; // percent
 	int8_t temp; // degree, -128..+127

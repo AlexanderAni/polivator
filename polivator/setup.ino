@@ -76,7 +76,7 @@ void defaultState() {
 	no_time.year = NEVER_YEAR;
 
 
-	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
+	for (byte i = 0; i < FLOWER_COUNT; i++) {
 		// Default all flowers are never watered
 		for (byte i1 = 0; i1 < FLOWER_SCHEDULE_COUNT; i1 += 1) {
 			flowerData[i].water_time[i1] = no_time;
@@ -85,6 +85,7 @@ void defaultState() {
 		}
 		flowerData[i].last_time = 0;
 		tasks.water_time[i] = 0;
+		state.flower_water_sensor[i] = true; // Default not to water
 	}
 
 	state.active_watering = -1; // off
@@ -92,8 +93,12 @@ void defaultState() {
 	for (byte i = 0; i < CONNECTORS_NUM; i = i + 1) {
 		// Valve defalults
 		// Just to enable connection
-		connectors[i].pinMode(P0, OUTPUT, LOW);
-		connectors[i].pinMode(P4, OUTPUT, LOW);
+		connectors[i].pinMode(P0, OUTPUT, LOW); // valve
+		connectors[i].pinMode(P1, OUTPUT, LOW); // water sensor
+		connectors[i].pinMode(P2, INPUT); // water sensor
+		connectors[i].pinMode(P4, OUTPUT, LOW); // valve
+		connectors[i].pinMode(P5, OUTPUT, LOW); // water sensor
+		connectors[i].pinMode(P6, INPUT); // water sensor
 		// Connector check
 		if (connectors[i].begin()) {
 			connector_enable[i] = true;

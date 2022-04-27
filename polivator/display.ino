@@ -25,7 +25,6 @@ void displaySetup() {
 	display.textMode(BUF_REPLACE);
 	// Serial.println("Display loaded");
 	clearDisplay();
-	displayHello();
 }
 
 void displayHello() {
@@ -36,7 +35,7 @@ void displayHello() {
 	strcat(text, ".");
 	itoa(MINOR_VER, minor, 10);
 	strcat(text, minor);
-	displayMessage(title, text, 1000);
+	displayMessage(title, text, 0);
 }
 
 // Tools
@@ -727,9 +726,12 @@ void displaySchedule(byte flower_num) {
 
 void displayFlowerData(byte flower_num) {
 	char text[DISPLAY_TEXT_WIDTH_2];
-	if (state.humidity > flowerData[flower_num].humid) {
+	char text2[DISPLAY_TEXT_WIDTH_2];
+	if (state.flower_water_sensor[flower_num]) {
+		strcpy(text, "Water full");
+	} else if (state.humidity > flowerData[flower_num].humid) {
 		char humid[5];
-		strcpy(text, "humid >");
+		strcpy(text, "Humid >");
 		itoa(flowerData[flower_num].humid, humid, 10);
 		strcat(text, humid);
 		strcat(text, "%");
@@ -739,7 +741,9 @@ void displayFlowerData(byte flower_num) {
 	displaySmallLine(text, 0);
 	// Normal mode
 	if (flowerConnection[flower_num].connected && !flowerWateringQueueNow(flower_num)) {
-		flowerWateringTimeText(text, flower_num);
+		flowerWateringTimeText(text2, flower_num);
+		strcpy(text, "last: ");
+		strcat(text, text2);
 	// Action mode
 	} else {
 		flowerAction(text, flower_num);
