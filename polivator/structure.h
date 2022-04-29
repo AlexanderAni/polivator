@@ -11,8 +11,16 @@ struct flowerDataStruct {
 	DateTime water_time[FLOWER_SCHEDULE_COUNT]; // several last times of watering
 	byte water_humidity[FLOWER_SCHEDULE_COUNT]; // several last humidities before watering
 	int8_t water_temp[FLOWER_SCHEDULE_COUNT]; // several last temp before watering. -128..127, celsium
+	byte water_error[FLOWER_SCHEDULE_COUNT]; // several last error codes of watering
 	byte last_time; // A last time position from water_time array (circle)
 };
+
+// Water errors:
+// 0: no error
+// 1: undefined
+// 2: full of water
+// 3: out of humidity
+// 4: manually
 
 struct flowerConnectionStruct {
 	byte connector: 4; // Connector number, max 15

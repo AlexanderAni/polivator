@@ -6,6 +6,8 @@ TimerMs tmr(AWAKE_DELAY, 0, 0);
 
 // MAIN
 
+void saveWaterState(byte flower_num, DateTime time, byte err=0);
+
 void setup() {
 	Serial.begin(9600);
 	// Serial.println("Setup ...");
@@ -135,12 +137,12 @@ void setDefaultWateringTask(byte flower_num) {
 	setWateringTask(flower_num, water_time_millis);
 }
 
-void stopWateringTask(byte flower_num) {
+void stopWateringTask(byte flower_num, byte err=0) {
 	// Stop a task for watering the flower
 	tasks.water_time[flower_num] = 0;
-	if (state.active_watering == flower_num) {
+	if (err != 0 || state.active_watering == flower_num) {
 		// Save watering time if active watering has been stopped
-		saveWaterTimeAndHumidity(flower_num, rtc.getTime());
+		saveWaterState(flower_num, rtc.getTime(), err);
 	}
 	// Serial.print("Stop watering ");
 	// Serial.println(flower_num);
@@ -221,15 +223,16 @@ void taskWorker() {
 		// Check next water task for each flower
 		for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
 			// Set active
-			if (flowerWateringQueueNow(i) && state.humidity <= flowerData[i].humid) {
+			if (flowerWateringQueueNow(i)) {
 				char title[11];
 				strcpy(title, FLOWER_NAMES[i]);
 				char text[21];
-				waterLevelCheck();
 				if (state.water_level) {
-					// Water Sensor check
+					// Water Level check before starting. Not to get in check cycle
+					waterLevelCheck();
+					// Water sensor check before starting
 					flowerWaterSensorCheck(i);
-					if (!state.flower_water_sensor[i]) {
+					if (state.water_level && !state.flower_water_sensor[i] && state.humidity <= flowerData[i].humid) {
 						// Start Watering
 						state.active_watering = i; // active watering = flower
 						state.active_water_humidity = state.humidity; // save humidity value before active watering
@@ -266,6 +269,15 @@ void taskWorker() {
 						}
 						displayMessage(title, text, 1500);
 						break;
+					} else {
+						// Skip task
+						if (state.flower_water_sensor[i]) {
+							// Because full of water
+							stopWateringTask(i, 2);
+						} else {
+							// Because humid
+							stopWateringTask(i, 3);
+						}
 					}
 				}
 			}
@@ -298,7 +310,7 @@ DateTime lastWaterTime(byte flower_num) {
 	return flowerData[flower_num].water_time[last_time];
 }
 
-void saveWaterTimeAndHumidity(byte flower_num, DateTime time) {
+void saveWaterState(byte flower_num, DateTime time, byte err) {
 	byte last_time;
 	last_time = flowerData[flower_num].last_time;
 	if (last_time == FLOWER_SCHEDULE_COUNT - 1) {
@@ -309,6 +321,7 @@ void saveWaterTimeAndHumidity(byte flower_num, DateTime time) {
 	flowerData[flower_num].water_time[last_time] = rtc.getTime();
 	flowerData[flower_num].water_humidity[last_time] = state.active_water_humidity;
 	flowerData[flower_num].water_temp[last_time] = state.active_water_temp;
+	flowerData[flower_num].water_error[last_time] = err;
 	flowerData[flower_num].last_time = last_time;
 }
 

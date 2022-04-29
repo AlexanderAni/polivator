@@ -705,6 +705,28 @@ void displaySchedule(byte flower_num) {
 		}
 
 		dateToText(text, flowerData[flower_num].water_time[last_time]);
+		// Errors
+		byte err = flowerData[flower_num].water_error[last_time];
+		switch (err) {
+			// Water errors:
+			// 0: no error
+			// 1: undefined
+			// 2: full of water
+			// 3: out of humidity
+			// 4: manually
+			case 1:
+				strcat(text, " U");
+			break;
+			case 2:
+				strcat(text, " F");
+			break;
+			case 3:
+				strcat(text, " H");
+			break;
+			case 4:
+				strcat(text, " M");
+			break;
+		}
 		strcpy(text2, "");
 		// Temp
 		byte temp = flowerData[flower_num].water_temp[last_time];
@@ -720,6 +742,7 @@ void displaySchedule(byte flower_num) {
 			strcat(text2, text_humid);
 			strcat(text2, "%");
 		}
+
 		displayMenuLineLR(text, text2, i + 1);
 	}
 }

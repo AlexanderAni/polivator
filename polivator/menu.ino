@@ -75,7 +75,7 @@ void pressPosition() {
 				strcpy(text, "Watering");
 				if (flowerWateringQueueNow(flower_num)) {
 					// Already Watering now
-					stopWateringTask(flower_num);
+					stopWateringTask(flower_num, 4); // Manually
 					if (flower_num == state.active_watering) {
 						strcpy(title, "Stopped");
 						stopActiveWatering();

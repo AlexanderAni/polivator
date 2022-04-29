@@ -82,6 +82,7 @@ void defaultState() {
 			flowerData[i].water_time[i1] = no_time;
 			flowerData[i].water_humidity[i1] = 255;
 			flowerData[i].water_temp[i1] = 127;
+			flowerData[i].water_error[i1] = 0;
 		}
 		flowerData[i].last_time = 0;
 		tasks.water_time[i] = 0;
