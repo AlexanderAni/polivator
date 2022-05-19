@@ -48,7 +48,7 @@
 const byte CONNECTORS_NUM = 1;
 // Connector classes with I2C addresses
 PCF8574 connectors[CONNECTORS_NUM] = {
-	PCF8574(0x20),
+	PCF8574(0x24),
 };
 byte flower_connectors[CONNECTORS_NUM][2] = {
 	{0, 1}, // flowers 0 and 1 on connector 1
