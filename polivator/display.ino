@@ -658,7 +658,7 @@ void displayFlowerValue(byte flower_num) {
 	char text[DISPLAY_TEXT_WIDTH_2];
 	char value[DISPLAY_TEXT_WIDTH_2];
 	PGM_P name = pgm_read_word(FLOWER_MENU + state.menu_position - 1);
-	strcpy(text, name);
+	strcpy_P(text, name);
 
 	// Display value
 	switch (state.menu_position) {
