@@ -30,7 +30,7 @@ void displaySetup() {
 void displayHello() {
 	char text[DISPLAY_TEXT_WIDTH];
 	char title[] = PROG_NAME;
-	char minor[2];
+	char minor[3];
 	itoa(MAJOR_VER, text, 10);
 	strcat(text, ".");
 	itoa(MINOR_VER, minor, 10);

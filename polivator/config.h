@@ -8,7 +8,7 @@
 
 #define PROG_NAME "Polivator"
 #define MAJOR_VER 1
-#define MINOR_VER 9
+#define MINOR_VER 10
 
 // Time
 // minute: 60 000, hour: 3 600 000. max 4 294 967 296
@@ -110,10 +110,10 @@ const char *const FLOWER_NAMES[] PROGMEM = {
 void flowerSetup() {
 	// 1: Volume, ml;
 	// 2: Period,
-	// 0 - never
-	// 1..20 - every 1..20 hours
-	// 21..51 - every 1 - 30 days (x-20)
-	// example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
+	// 		0 - never
+	// 		1..20 - every 1..20 hours
+	// 		21..51 - every 1 - 30 days (x-20)
+	// 		example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
 	// 3: Period while Hot and Dry climat
 	// Quantity matches with FLOWER_COUNT
 	flowerData[0] = (flowerDataStruct) {50, 12, 6};
