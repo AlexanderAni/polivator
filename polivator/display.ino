@@ -493,20 +493,28 @@ void settingsPositionText(char* text, byte pos) {
 	PGM_P name = pgm_read_word(SETTINGS_MENU + pos);
 	strcpy_P(text, name);
 	char value[DISPLAY_TEXT_WIDTH_2];
-	if (pos != 3) {
+	if (pos != 5) {
 		switch (pos) {
 			case 0:
-				timeFromHourText(value, settings.day_start_hour);
+				itoa(settings.hot_dry_temp, value, 10);
+				strcat(value, "c");
 				break;
 			case 1:
-				timeFromHourText(value, settings.day_end_hour);
+				itoa(settings.hot_dry_humid, value, 10);
+				strcat(value, "%");
 				break;
 			case 2:
-				//	Pump speed
-				itoa(settings.pump_speed, value, 10);
-				strcat(value, "ml/sec");
+				timeFromHourText(value, settings.day_start_hour);
+				break;
+			case 3:
+				timeFromHourText(value, settings.day_end_hour);
 				break;
 			case 4:
+				//	Pump speed
+				itoa(settings.pump_speed, value, 10);
+				strcat(value, "ml/s");
+				break;
+			case 6:
 				itoa(settings.leakage_finish_delay, value, 10);
 				strcat(value, "s");
 				break;
@@ -544,18 +552,28 @@ void displaySettingsValue() {
 			break;
 		case 1:
 			//	Hours
-			timeFromHourText(value, settings.day_start_hour);
+			itoa(settings.hot_dry_temp, value, 10);
+			strcat(value, "c");
 			break;
 		case 2:
 			//	Hours
-			timeFromHourText(value, settings.day_end_hour);
+			itoa(settings.hot_dry_humid, value, 10);
+			strcat(value, "%");
 			break;
 		case 3:
-			//	Pump speed
-			itoa(settings.pump_speed, value, 10);
-			strcat(value, "ml/sec");
+			//	Hours
+			timeFromHourText(value, settings.day_start_hour);
+			break;
+		case 4:
+			//	Hours
+			timeFromHourText(value, settings.day_end_hour);
 			break;
 		case 5:
+			//	Pump speed
+			itoa(settings.pump_speed, value, 10);
+			strcat(value, "ml/s");
+			break;
+		case 7:
 			//	leakage finish
 			itoa(settings.leakage_finish_delay, value, 10);
 			strcat(value, "s");
