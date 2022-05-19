@@ -413,8 +413,8 @@ void displayDataActiveWatering() {
 	char text[DISPLAY_TEXT_WIDTH_2];
 	char num[5];
 	// First line: Name of flower
-	strcpy(text, "Water: ");
-	strcat(text, FLOWER_NAMES[state.active_watering]);
+	PGM_P name = pgm_read_word(FLOWER_NAMES + state.active_watering);
+	strcpy_P(text, name);
 	displaySmallLine(text, 1);
 	// Second Line: Left time
 	strcpy(text, "Left: ");
@@ -490,7 +490,8 @@ void displaySettingsScreen() {
 }
 
 void settingsPositionText(char* text, byte pos) {
-	strcpy(text, SETTINGS_MENU[pos]);
+	PGM_P name = pgm_read_word(SETTINGS_MENU + pos);
+	strcpy_P(text, name);
 	char value[DISPLAY_TEXT_WIDTH_2];
 	if (pos != 3) {
 		switch (pos) {
@@ -533,7 +534,8 @@ void displaySettingsValue() {
 	// Display position
 	char text[DISPLAY_TEXT_WIDTH_2];
 	char value[DISPLAY_TEXT_WIDTH_2];
-	strcpy(text, SETTINGS_MENU[state.menu_position - 1]);
+	PGM_P name = pgm_read_word(SETTINGS_MENU + state.menu_position - 1);
+	strcpy_P(text, name);
 
 	// Display value
 	switch (state.menu_position) {
@@ -612,9 +614,10 @@ void displayFlowerSmallTitle(char *text) {
 }
 
 void titleText(byte flower_num, char text[10]) {
+	PGM_P name = pgm_read_word(FLOWER_NAMES + flower_num);
 	itoa(flower_num + 1, text, 10);
 	strcat(text, " ");
-	strcat(text, FLOWER_NAMES[flower_num]);
+	strcat_P(text, name);
 }
 
 void displayPosition(char *text, byte pos, bool active) {
@@ -622,7 +625,8 @@ void displayPosition(char *text, byte pos, bool active) {
 }
 
 void positionText(char* text, byte pos, byte flower_num) {
-	strcpy(text, FLOWER_MENU[pos]);
+	PGM_P name = pgm_read_word(FLOWER_MENU + pos);
+	strcpy_P(text, name);
 	char value[DISPLAY_TEXT_WIDTH_2];
 	switch (pos) {
 		case 0:
@@ -653,7 +657,8 @@ void displayFlowerValue(byte flower_num) {
 	// Display position
 	char text[DISPLAY_TEXT_WIDTH_2];
 	char value[DISPLAY_TEXT_WIDTH_2];
-	strcpy(text, FLOWER_MENU[state.menu_position - 1]);
+	PGM_P name = pgm_read_word(FLOWER_MENU + state.menu_position - 1);
+	strcpy(text, name);
 
 	// Display value
 	switch (state.menu_position) {

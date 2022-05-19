@@ -95,19 +95,14 @@ const byte FLOWER_COUNT = 2;
 flowerDataStruct flowerData[FLOWER_COUNT];
 flowerConnectionStruct flowerConnection[FLOWER_COUNT];
 
-const char *FLOWER_NAMES[FLOWER_COUNT] = {
-		// Quantity matches with FLOWER_COUNT
-		"Chlorophy", // 0
-		"Gerbera",
-		// "Flower",
-		// "Flower",
-		// "Flower",
-		// "Flower",
-		// "Flower",
-		// "Flower",
-		// "Flower",
-		// "Flower" // 9
-	};
+// Quantity matches with FLOWER_COUNT
+const char fl_name_str1[] PROGMEM = "Chlorophy";
+const char fl_name_str2[] PROGMEM = "Gerbera";
+// const char fl_name_str3[] PROGMEM = "";
+const char *const FLOWER_NAMES[] PROGMEM = {
+	fl_name_str1, fl_name_str2,
+};
+
 
 void flowerSetup() {
 	// 1: Volume, ml;
@@ -134,20 +129,24 @@ void flowerSetup() {
 
 const byte POSITION_COUNT = 5;
 const byte DISPLAY_POSITIONS = 4; // How many positions display
-const char *FLOWER_MENU[POSITION_COUNT] = {
-	"Show schedule",
-	"Water the flower",
-	"Period",
-	"humid limit",
-	"Volume",
+const char mnu_str1[] PROGMEM = "Show schedule";
+const char mnu_str2[] PROGMEM = "Water the flower";
+const char mnu_str3[] PROGMEM = "Period";
+const char mnu_str4[] PROGMEM = "HotDry Period";
+const char mnu_str5[] PROGMEM = "Volume";
+const char *const FLOWER_MENU[] PROGMEM = {
+	mnu_str1, mnu_str2, mnu_str3, mnu_str4, mnu_str5
 };
-const byte SETTINGS_COUNT = 5;
-const char *SETTINGS_MENU[SETTINGS_COUNT] = {
-	"Day starts",
-	"Day ends",
-	"Pump speed",
-	"Check pump 200ml",
-	"leak ends",
+const byte SETTINGS_COUNT = 7;
+const char s_str1[] PROGMEM = "HotDry temp";
+const char s_str2[] PROGMEM = "HotDry humid";
+const char s_str3[] PROGMEM = "Day starts";
+const char s_str4[] PROGMEM = "Day ends";
+const char s_str5[] PROGMEM = "Pump speed";
+const char s_str6[] PROGMEM = "Check pump 200ml";
+const char s_str7[] PROGMEM = "leak ends";
+const char *const SETTINGS_MENU[] PROGMEM = {
+	s_str1, s_str2, s_str3, s_str4, s_str5, s_str6, s_str7,
 };
 
 const char FLOWER_MENU_STOP_WATERING[] = "Stop watering";

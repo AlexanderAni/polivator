@@ -2,6 +2,8 @@
 #include <GyverPower.h> // Power and Sleep Mode Library
 #include <Wire.h>
 #include <TimerMs.h>
+#include <avr/pgmspace.h>
+
 TimerMs tmr(AWAKE_DELAY, 0, 0);
 
 // MAIN
@@ -225,7 +227,8 @@ void taskWorker() {
 			// Set active
 			if (flowerWateringQueueNow(i)) {
 				char title[11];
-				strcpy(title, FLOWER_NAMES[i]);
+				PGM_P name = pgm_read_word(FLOWER_NAMES + i);
+				strcpy_P(title, name);
 				char text[21];
 				if (state.water_level) {
 					// Water Level check before starting. Not to get in check cycle
@@ -495,6 +498,7 @@ void check_pump_speed() {
 	char text[21];
 	char time_text[21];
 	int time = 200 / settings.pump_speed;
+	PGM_P name = pgm_read_word(FLOWER_NAMES);
 	strcpy(title, "Pump check");
 	strcpy(text, "200ml | ");
 	itoa(time, time_text, 10);
@@ -502,7 +506,7 @@ void check_pump_speed() {
 	strcat(text, "s");
 	displayMessage(title, text, 2000);
 
-	strcpy(title, FLOWER_NAMES[0]);
+	strcpy_P(title, name);
 	strcpy(text, "Watering ...");
 	displayMessage(title, text, 0);
 	// Water check
