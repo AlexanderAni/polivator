@@ -34,6 +34,7 @@ struct stateStruct {
 	bool sleep_mode; // Sleep mode is active
 	bool save_data; // Need save data to memory
 	bool tempSensor; // temp sensor loaded
+	bool hot_dry; // hot_dry climat
 	// Time
 	uint32_t last_active_time; // Time in millis()
 	uint32_t sensor_check_time; // Time in millis()

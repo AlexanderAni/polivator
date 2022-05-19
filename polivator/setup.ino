@@ -57,6 +57,7 @@ void defaultState() {
 	state.sleep_mode = false; // Sleep mode is disabled
 	state.water_level = false; // No water default
 	state.save_data = false;
+	state.hot_dry = false; // Normal climat
 	state.last_active_time = millis(); // Awake from start (now)
 	state.sensor_check_time = millis() - SENSOR_CHECK_DELAY; // now
 	state.water_check_time = millis() - WATER_CHECK_DELAY; // now

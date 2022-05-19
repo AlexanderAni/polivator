@@ -132,7 +132,7 @@ void setDefaultWateringTask(byte flower_num) {
 		seconds_from_last_watering = 0;
 	}
 	// Period in seconds
-	water_period_sec = periodHourValue(flowerData[flower_num].period) * 3600L;
+	water_period_sec = periodHourValue(flowerPeriod(flower_num)) * 3600L;
 	water_period_sec = water_period_sec - seconds_from_last_watering;
 	water_time_millis = water_period_sec * 1000ul;
 	water_time_millis += millis();
@@ -164,9 +164,9 @@ void taskCheck() {
 	// Check periods for each flower
 	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
 		// Set next water time if period is not 0 and flower has been connected
-		if (flowerConnection[i].connected && flowerData[i].period && tasks.water_time[i] == 0) {
+		if (flowerConnection[i].connected && flowerPeriod(i) && tasks.water_time[i] == 0) {
 			setDefaultWateringTask(i);
-			// Serial.print(periodHourValue(flowerData[i].period));
+			// Serial.print(periodHourValue(flowerPeriod(i)));
 			// Serial.println(F(" hours"));
 			// Serial.flush();
 		}
@@ -190,6 +190,14 @@ int periodHourValue(byte period) {
 
 int wateringDurationInSeconds(byte flower_num) {
 	return flowerData[flower_num].volume / settings.pump_speed;
+}
+
+byte flowerPeriod(byte flower_num) {
+	if (state.hot_dry) {
+		return flowerData[flower_num].hot_dry_period;
+	} else {
+		return flowerData[flower_num].period;
+	}
 }
 
 
@@ -444,6 +452,19 @@ void checkSurroundSensors() {
 	// Temperature and Humidity sensor
 	if ((millis() - state.sensor_check_time) > SENSOR_CHECK_DELAY) {
 		humidTempCheck();
+		if (state.temp < settings.hot_dry_temp || state.humidity > settings.hot_dry_humid) {
+			if (state.hot_dry == true) {
+				// Reset all the tasks if climat changed
+				resetFlowerTasks();
+			}
+			state.hot_dry = false;
+		} else {
+			if (state.hot_dry == false) {
+				// Reset all the tasks if climat changed
+				resetFlowerTasks();
+			}
+			state.hot_dry = true;
+		}
 		state.sensor_check_time = millis();
 	}
 	// Water level sensor
