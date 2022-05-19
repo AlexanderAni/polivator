@@ -57,7 +57,7 @@ void pressPosition() {
 	} else {
 		if (state.menu_screen == 0) {
 			// Settings screen
-			if (state.menu_position == 4) {
+			if (state.menu_position == 6) {
 				// Check pump by water 200 ml
 				check_pump_speed();
 			} else {
@@ -116,26 +116,40 @@ void prevPositionValue() {
 		switch (state.menu_position) {
 			case 1:
 			// Change hours
+			if (settings.hot_dry_temp > -10) {
+				settings.hot_dry_temp -= 1;
+				state.save_data = true;
+			}
+			break;
+			case 2:
+			// Change hours
+			if (settings.hot_dry_humid > 0) {
+				settings.hot_dry_humid -= 5;
+				state.save_data = true;
+			}
+			break;
+			case 3:
+			// Change hours
 			if (settings.day_start_hour > 0) {
 				settings.day_start_hour -= 1;
 				state.save_data = true;
 			}
 			break;
-			case 2:
+			case 4:
 			// Change hours
 			if (settings.day_end_hour > settings.day_start_hour + 1) {
 				settings.day_end_hour -= 1;
 				state.save_data = true;
 			}
 			break;
-			case 3:
+			case 5:
 			// Change pump speed
 			if (settings.pump_speed > 0) {
 				settings.pump_speed -= 1;
 				state.save_data = true;
 			}
 			break;
-			case 5:
+			case 7:
 			// Change leakage finish
 			if (settings.leakage_finish_delay > 0) {
 				settings.leakage_finish_delay -= 1;
@@ -190,26 +204,40 @@ void nextPositionValue() {
 		switch (state.menu_position) {
 			case 1:
 			// Change hours
+			if (settings.hot_dry_temp < 60) {
+				settings.hot_dry_temp += 1;
+				state.save_data = true;
+			}
+			break;
+			case 2:
+			// Change hours
+			if (settings.hot_dry_humid < 100) {
+				settings.hot_dry_humid += 5;
+				state.save_data = true;
+			}
+			break;
+			case 3:
+			// Change hours
 			if (settings.day_start_hour < settings.day_end_hour - 1) {
 				settings.day_start_hour += 1;
 				state.save_data = true;
 			}
 			break;
-			case 2:
+			case 4:
 			// Change hours
 			if (settings.day_end_hour < 24) {
 				settings.day_end_hour += 1;
 				state.save_data = true;
 			}
 			break;
-			case 3:
+			case 5:
 			// Pump speed
 			if (settings.pump_speed < 255) {
 				settings.pump_speed += 1;
 				state.save_data = true;
 			}
 			break;
-			case 5:
+			case 7:
 			// Leakage_finish_delay
 			if (settings.leakage_finish_delay < 65535) {
 				settings.leakage_finish_delay += 1;
