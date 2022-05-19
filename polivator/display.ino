@@ -78,7 +78,7 @@ void periodValueText(char text[5], byte val) {
 	// 21..51 - every 1 - 30 days (x - 20)
 	// example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
 	if (val == 0) {
-		strcpy(text, "never");
+		strcpy_P(text, STR_NEVER);
 	} else if (val < 21) {
 		itoa(val, text, 10);
 		strcat(text, "h");
@@ -92,10 +92,10 @@ void millisValueToText(char text[5], uint32_t val, bool seconds=true) {
 	// Write millis value to text
 	// Default with seconds
 	if (val == 0) {
-		strcpy(text, "0");
+		strcpy_P(text, STR_ZERO);
 	} else if (seconds && val < 60000) { // Up to 1 minute > seconds (if seconds is true)
 		itoa((long)val / 1000, text, 10);
-		strcat(text, "s");
+		strcat_P(text, STR_S);
 	} else if (val < 3600000) { // Up to 90 minutes > minutes
 		itoa((long)val / 60000, text, 10);
 		strcat(text, "m");
@@ -113,12 +113,12 @@ void secondsValueToText(char text[6], long val, bool seconds=true) {
 	// Default with seconds
 	char detailed[3]; // Detailed value. Second part of a text
 	if (val == 0) {
-		strcpy(text, "0");
+		strcpy_P(text, STR_ZERO);
 	} else if (seconds && val < 60) { // Up to 1 minute > seconds (if seconds is true)
 		itoa(val, text, 10);
-		strcat(text, "s");
+		strcat_P(text, STR_S);
 	} else if (!seconds && val < 60) { // Up to 1 minute > seconds (if seconds is false)
-		strcpy(text, "now");
+		strcpy_P(text, STR_NOW);
 	} else if (val < 3600) { // Up to 90 minutes > minutes
 		// minutes
 		itoa((long)val / 60, text, 10);
@@ -127,7 +127,7 @@ void secondsValueToText(char text[6], long val, bool seconds=true) {
 		if (seconds) {
 			itoa((long)val % 60, detailed, 10);
 			strcat(text, detailed);
-			strcat(text, "s");
+			strcat_P(text, STR_S);
 		}
 	} else if (val < 86400) { // Up to 24 hours > hours
 		// hours
@@ -147,19 +147,19 @@ void secondsValueToText(char text[6], long val, bool seconds=true) {
 		strcat(text, detailed);
 		strcat(text, "h");
 	} else { // very long time
-		strcpy(text, "--");
+		strcpy_P(text, STR_DASHDASH);
 	}
 }
 
 void dateToText(char *text, DateTime time) {
 	char value[4];
 	if (time.year == NEVER_YEAR) {
-		strcpy(text, "--");
+		strcpy_P(text, STR_DASHDASH);
 	} else {
 		// Day
 		itoa(time.date, value, 10);
 		if (time.date < 10) {
-			strcpy(text, "0");
+			strcpy_P(text, STR_ZERO);
 			strcat(text, value);
 		} else {
 			strcpy(text, value);
@@ -168,21 +168,21 @@ void dateToText(char *text, DateTime time) {
 		strcat(text, ".");
 		itoa(time.month, value, 10);
 		if (time.month < 10) {
-			strcat(text, "0");
+			strcat(text, STR_ZERO);
 		}
 		strcat(text, value);
 		// Hour
 		strcat(text, " ");
 		itoa(time.hour, value, 10);
 		if (time.hour < 10) {
-			strcat(text, "0");
+			strcat(text, STR_ZERO);
 		}
 		strcat(text, value);
 		// Minute
 		strcat(text, ":");
 		itoa(time.minute, value, 10);
 		if (time.minute < 10) {
-			strcat(text, "0");
+			strcat(text, STR_ZERO);
 		}
 		strcat(text, value);
 	}
@@ -402,7 +402,7 @@ void displayDataActiveWatering() {
 	strcpy_P(text, name);
 	displaySmallLine(text, 1);
 	// Second Line: Left time
-	strcpy(text, "Left: ");
+	strcpy_P(text, STR_LEFT);
 	millisValueToText(num, state.active_watering_stop_time - millis(), true); // with seconds
 	strcat(text, num);
 	displaySmallLine(text, 2);
@@ -424,26 +424,26 @@ void displayDataScreen() {
 			strcat(text1, "%");
 		}
 		if (dayTime()) {
-			strcpy(text2, "day");
+			strcpy_P(text2, STR_DAY);
 		} else {
-			strcpy(text2, "night");
+			strcpy_P(text2, STR_NIGHT);
 		}
 		displaySmallLineLR(text1, text2, 0);
 		// Last line
 
 		if (state.water_allowed) {
 			if (state.hot_dry) {
-				strcpy(text1, "Hot Dry");
+				strcpy_P(text1, STR_HOTDRY);
 			} else {
 				strcpy(text1, "");
 			}
 		} else {
 			if (state.water_leak) {
-				strcpy(text1, "Leakage");
+				strcpy_P(text1, STR_LEAKAGE);
 			} else if (!state.water_level) {
-				strcpy(text1, "No water");
+				strcpy_P(text1, STR_NOWATER);
 			} else {
-				strcpy(text1, "Disabled");
+				strcpy_P(text1, STR_DISABLED);
 			}
 		}
 		displaySmallLine(text1, 1);
@@ -500,14 +500,14 @@ void settingsPositionText(char* text, byte pos) {
 			case 4:
 				//	Pump speed
 				itoa(settings.pump_speed, value, 10);
-				strcat(value, "ml/s");
+				strcat_P(value, STR_MLS);
 				break;
 			case 6:
 				itoa(settings.leakage_finish_delay, value, 10);
-				strcat(value, "s");
+				strcat_P(value, STR_S);
 				break;
 		}
-		strcat(text, ": ");
+		strcat_P(text, STR_COLON);
 		strcat(text, value);
 	}
 }
@@ -517,7 +517,7 @@ void timeFromHourText(char text[6], byte val) {
 	// "21" >> "21:00"
 	char value_txt[6];
 	if (val < 10) {
-		strcpy(text, "0");
+		strcpy_P(text, STR_ZERO);
 	} else {
 		strcpy(text, "");
 	}
@@ -559,12 +559,12 @@ void displaySettingsValue() {
 		case 5:
 			//	Pump speed
 			itoa(settings.pump_speed, value, 10);
-			strcat(value, "ml/s");
+			strcat_P(value, STR_MLS);
 			break;
 		case 7:
 			//	leakage finish
 			itoa(settings.leakage_finish_delay, value, 10);
-			strcat(value, "s");
+			strcat_P(value, STR_S);
 			break;
 	}
 	displaySmallLine(text, 0); // Parameter on the left
@@ -596,7 +596,7 @@ void displayFlowerScreen(byte flower_num) {
 				if (i == 1 && flowerWateringQueueNow(flower_num)) {
 					// Watering
 					// Stop watering the flower
-					strcpy(position_text, FLOWER_MENU_STOP_WATERING);
+					strcpy_P(position_text, STOP_WATERING);
 				} else {
 					positionText(position_text, i, flower_num); // text preparation
 				}
@@ -643,17 +643,17 @@ void positionText(char* text, byte pos, byte flower_num) {
 			break;
 		case 2:
 			periodValueText(value, flowerData[flower_num].period);
-			strcat(text, ": ");
+			strcat_P(text, STR_COLON);
 			strcat(text, value);
 			break;
 		case 3:
 			periodValueText(value, flowerData[flower_num].hot_dry_period);
-			strcat(text, ": ");
+			strcat_P(text, STR_COLON);
 			strcat(text, value);
 			break;
 		case 4:
 			volumeValueText(value, flowerData[flower_num].volume);
-			strcat(text, ": ");
+			strcat_P(text, STR_COLON);
 			strcat(text, value);
 			break;
 	}
@@ -703,7 +703,7 @@ void displaySchedule(byte flower_num) {
 
 	// Now time - Next watering
 	flowerNextWateringTimeText(text, flower_num);
-	strcpy(text1, "next: ");
+	strcpy_P(text1, STR_NEXT);
 	strcat(text1, text);
 	displayMenuLineLR(timeText(rtc.getTime()), text1, 0, false); // unselected
 
@@ -758,7 +758,7 @@ void displayFlowerData(byte flower_num) {
 	char text[DISPLAY_TEXT_WIDTH_2];
 	char text2[DISPLAY_TEXT_WIDTH_2];
 	if (state.flower_water_sensor[flower_num]) {
-		strcpy(text, "Water full");
+		strcpy_P(text, STR_WATERFULL);
 	} else {
 		strcpy(text, "");
 	}
@@ -766,7 +766,7 @@ void displayFlowerData(byte flower_num) {
 	// Normal mode
 	if (flowerConnection[flower_num].connected && !flowerWateringQueueNow(flower_num)) {
 		flowerWateringTimeText(text2, flower_num);
-		strcpy(text, "last: ");
+		strcpy_P(text, STR_LAST);
 		strcat(text, text2);
 	// Action mode
 	} else {
@@ -785,21 +785,21 @@ void flowerWateringTimeText(char* text, byte flower_num) {
 void flowerNextWateringTimeText(char* text, byte flower_num) {
 	// Write last watering time to text
 	if (tasks.water_time[flower_num] == 0) {
-		strcpy(text, "--");
+		strcpy_P(text, STR_DASHDASH);
 	} else if ((tasks.water_time[flower_num] - millis()) < TASK_CHECK_DELAY) { // water time >= now
 		uint32_t val = tasks.water_time[flower_num] - millis();
 		val = val / 1000ul;
 		secondsValueToText(text, val, false); // without seconds
 	} else {
-		strcpy(text, "now");
+		strcpy_P(text, STR_NOW);
 	}
 }
 
 void flowerAction(char* text, byte flower_num) {
 	if (!flowerConnection[flower_num].connected) {
-		strcpy(text, "failed");
+		strcpy_P(text, STR_FAILED);
 	} else if (flowerWateringQueueNow(flower_num)) {
-		strcpy(text, "wait..");
+		strcpy_P(text, STR_WAIT);
 	}
 }
 

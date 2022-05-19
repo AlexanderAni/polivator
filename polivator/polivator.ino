@@ -267,14 +267,14 @@ void taskWorker() {
 								state.active_watering = -1;
 								// Serial.println("ERROR: Pump has not started");
 								// Serial.flush();
-								strcpy(text, "PUMP ERROR");
+								strcpy_P(text, STR_PUMP_ERROR);
 							} else {
-								strcpy(text, "WATERING");
+								strcpy_P(text, STR_WATERING);
 							}
 						} else {
 							// If the valve has not opened
 							state.active_watering = -1;
-							strcpy(text, "VALVE ERROR");
+							strcpy_P(text, STR_VALVE_ERROR);
 							// Serial.println("ERROR: Valve has not opened");
 							// Serial.flush();
 						}
@@ -343,12 +343,12 @@ void leakageDetected() {
 	state.water_allowed = false;
 	state.water_leak = true;
 	state.leakage_time = millis();
-	strcpy(text, "Water detected");
+	strcpy_P(text, STR_LEAKAGE);
 	// Stop the pump
 	if (!stopPump()) {
 		// Serial.println("ERROR: Pump");
 		// Serial.flush();
-		strcpy(text, "Cannot stop pump");
+		strcpy_P(text, STR_PUMP_STOP_ERROR);
 	}
 	// Close all the valves
 	for (byte i = 0; i < FLOWER_COUNT; i = i + 1) {
@@ -357,10 +357,10 @@ void leakageDetected() {
 			// Serial.print("ERROR: Valve ");
 			// Serial.println(i);
 			// Serial.flush();
-			strcpy(text, "Valve error");
+			strcpy_P(text, STR_VALVE_ERROR);
 		}
 	}
-	strcpy(title, "Leakage");
+	strcpy_P(title, STR_LEAKAGE);
 	displayMessage(title, text, 2000);
 }
 
@@ -517,15 +517,15 @@ void check_pump_speed() {
 	char time_text[21];
 	int time = 200 / settings.pump_speed;
 	PGM_P name = pgm_read_word(FLOWER_NAMES);
-	strcpy(title, "Pump check");
-	strcpy(text, "200ml | ");
+	strcpy_P(title, STR_PUMP_CHECK);
+	strcpy_P(text, STR_PUMP_200ML);
 	itoa(time, time_text, 10);
 	strcat(text, time_text);
-	strcat(text, "s");
+	strcat_P(text, STR_S);
 	displayMessage(title, text, 2000);
 
 	strcpy_P(title, name);
-	strcpy(text, "Watering ...");
+	strcpy_P(text, STR_WATERING);
 	displayMessage(title, text, 0);
 	// Water check
 	openFlowerValve(0);
@@ -533,6 +533,6 @@ void check_pump_speed() {
 	delay(time * 1000L);
 	stopPump();
 	closeFlowerValve(0);
-	strcpy(text, "Finished");
+	strcpy_P(text, STR_FINISHED);
 	displayMessage(title, text, 2000);
 }

@@ -1,4 +1,6 @@
 // MicroDS3231 Time management
+const char PROGMEM STR_TIME_SENSOR[] = "Time Sensor DS3231";
+const char PROGMEM STR_TIME_BATTERY[] = "DS3231 battery power";
 
 void rtcSetupTime() {
 	// Automatical time setup by compilation time
@@ -11,8 +13,8 @@ void rtcSetup() {
 	char text[21];
 	if (!rtc.begin()) {
 		state.memory_allowed = false;
-		strcpy(title, "Missing");
-		strcpy(text, "Time Sensor DS3231");
+		strcpy_P(title, STR_MISSING);
+		strcpy_P(text, STR_TIME_SENSOR);
 		displayMessage(title, text, 2000);
 	}
 	checkPowerLost();
@@ -24,8 +26,8 @@ void checkPowerLost() {
 		state.memory_allowed = false;
 		char title[11];
 		char text[21];
-		strcpy(title, "Missing");
-		strcpy(text, "DS3231 battery power");
+		strcpy_P(title, STR_MISSING);
+		strcpy_P(text, STR_TIME_BATTERY);
 		displayMessage(title, text, 2000);
 	}
 }

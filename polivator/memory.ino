@@ -21,16 +21,16 @@ void readFlowerData() {
 		byte len = strlen(PROG_NAME) + 1;
 		int settings_len = sizeof(settings);
 		char name[] = PROG_NAME;
-		strcpy(title, "Memory");
+		strcpy_P(title, STR_MEMORY);
 		EEPROM.get(5, name);
 		// Read All data if same name and version and "success flag" is true
 		if (strcmp(name, PROG_NAME) == 0 && EEPROM.read(5 + len) == MAJOR_VER && EEPROM.read(6 + len) == MINOR_VER && EEPROM.read(7 + len) == true) {
 			EEPROM.get(8 + len, settings);
 			EEPROM.get(9 + len + settings_len, flowerData);
 			state.save_data = false;
-			strcpy(text, "Loaded data");
+			strcpy_P(text, STR_MEMORY_LOADED);
 		} else {
-			strcpy(text, "Missing data");
+			strcpy_P(text, STR_MEMORY_MISSING);
 			// if (strcmp(name, PROG_NAME) != 0) {
 			// 	strcpy(text, "Missing PROG_NAME");
 			// } else if (EEPROM.read(5 + len) != MAJOR_VER) {

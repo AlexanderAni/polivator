@@ -152,7 +152,41 @@ const char *const SETTINGS_MENU[] PROGMEM = {
 	s_str1, s_str2, s_str3, s_str4, s_str5, s_str6, s_str7,
 };
 
-const char FLOWER_MENU_STOP_WATERING[] = "Stop watering";
+const char PROGMEM STOP_WATERING[] = "Stop watering";
+const char PROGMEM STR_NEVER[] = "never";
+const char PROGMEM STR_NOW[] = "now";
+const char PROGMEM STR_DAY[] = "day";
+const char PROGMEM STR_NIGHT[] = "night";
+const char PROGMEM STR_HOTDRY[] = "Hot Dry";
+const char PROGMEM STR_LEAKAGE[] = "Leakage";
+const char PROGMEM STR_WATERING[] = "Watering";
+const char PROGMEM STR_STOPPED[] = "Stopped";
+const char PROGMEM STR_CANCELLED[] = "Cancelled";
+const char PROGMEM STR_PUMP_CHECK[] = "Pump check";
+const char PROGMEM STR_PUMP_200ML[] = "200ml | ";
+const char PROGMEM STR_PUMP_ERROR[] = "PUMP ERROR";
+const char PROGMEM STR_VALVE_ERROR[] = "VALVE ERROR";
+const char PROGMEM STR_PUMP_STOP_ERROR[] = "Cannot stop pump";
+const char PROGMEM STR_MISSING[] = "Missing";
+const char PROGMEM STR_PLANNED[] = "Planned";
+const char PROGMEM STR_FINISHED[] = "Finished";
+const char PROGMEM STR_NOWATER[] = "No water";
+const char PROGMEM STR_WATERFULL[] = "Water full";
+const char PROGMEM STR_DISABLED[] = "Disabled";
+const char PROGMEM STR_FAILED[] = "Failed";
+const char PROGMEM STR_WAIT[] = "Wait ...";
+const char PROGMEM STR_LAST[] = "Last: ";
+const char PROGMEM STR_NEXT[] = "Next: ";
+const char PROGMEM STR_LEFT[] = "Left: ";
+const char PROGMEM STR_COLON[] = ": ";
+const char PROGMEM STR_S[] = "s";
+const char PROGMEM STR_MLS[] = "ml/s";
+const char PROGMEM STR_ZERO[] = "0";
+const char PROGMEM STR_DASHDASH[] = "--";
+const char PROGMEM STR_MEMORY[] = "Memory";
+const char PROGMEM STR_MEMORY_LOADED[] = "Loaded data";
+const char PROGMEM STR_MEMORY_MISSING[] = "Missing data";
+const char PROGMEM STR_TEMP_SENSOR[] = "Temp & Humid sensor";
 
 // Time
 

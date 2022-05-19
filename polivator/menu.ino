@@ -72,16 +72,16 @@ void pressPosition() {
 				// Water the flower
 				char text[21];
 				char title[11];
-				strcpy(text, "Watering");
+				strcpy_P(text, STR_WATERING);
 				if (flowerWateringQueueNow(flower_num)) {
 					// Already Watering now
 					stopWateringTask(flower_num, 4); // Manually
 					if (flower_num == state.active_watering) {
-						strcpy(title, "Stopped");
+						strcpy_P(title, STR_STOPPED);
 						stopActiveWatering();
 						displayMessage(title, text, 1500);
 					} else {
-						strcpy(title, "Cancelled");
+						strcpy_P(title, STR_CANCELLED);
 						displayMessage(title, text, 1500);
 					}
 				} else {
@@ -89,12 +89,12 @@ void pressPosition() {
 					flowerWaterSensorCheck(flower_num);
 					if (state.flower_water_sensor[flower_num]) {
 						// Flower is full of water
-						strcpy(title, "Missing");
-						strcpy(text, "Full of water!");
+						strcpy_P(title, STR_MISSING);
+						strcpy_P(text, STR_WATERFULL);
 						displayMessage(title, text, 1500);
 					} else {
 						// Water the flower
-						strcpy(title, "Planned");
+						strcpy_P(title, STR_PLANNED);
 						setWateringTask(flower_num, millis());
 						displayMessage(title, text, 1500);
 					}

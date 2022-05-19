@@ -141,8 +141,8 @@ void sensorSetup() {
 	char title[11];
 	char text[21];
 	if (! aht.begin()) {
-		strcpy(title, "Missing");
-		strcpy(text, "Temp & Humid sensor");
+		strcpy_P(title, STR_MISSING);
+		strcpy_P(text, STR_TEMP_SENSOR);
 		displayMessage(title, text, 2000);
 	} else {
 		state.tempSensor = true;
