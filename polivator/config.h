@@ -25,6 +25,9 @@
 #define TASK_CHECK_DELAY 1000000000 // working with millis()
 #define LEAKAGE_FINISH_DELAY 10 // seconds. max 65 535. Delay to check if leakage is finished. LEAKAGE_FINISH_DELAY=0 for stop forewer
 
+#define HOT_DRY_TEMP 30 // More than 30c temperature
+#define HOT_DRY_HUMID 30 // Less than 30% of humidity
+
 #define DAY_START_HOUR 9
 #define DAY_END_HOUR 23
 // This year and time number will be "never"

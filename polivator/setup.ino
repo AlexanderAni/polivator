@@ -41,6 +41,8 @@ void powerSetup() {
 // Settings
 
 void defaultSettings() {
+	settings.hot_dry_temp = HOT_DRY_TEMP;
+	settings.hot_dry_humid = HOT_DRY_HUMID;
 	settings.day_start_hour = DAY_START_HOUR;
 	settings.day_end_hour = DAY_END_HOUR;
 	settings.pump_speed = PUMP_SPEED;

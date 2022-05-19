@@ -72,6 +72,8 @@ struct taskStruct {
 } tasks;
 
 struct globalSettings {
+	int8_t hot_dry_temp;
+	byte hot_dry_humid;
 	byte day_start_hour;
 	byte day_end_hour;
 	byte pump_speed;
