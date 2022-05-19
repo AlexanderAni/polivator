@@ -188,21 +188,6 @@ void dateToText(char *text, DateTime time) {
 	}
 }
 
-void humidValueText(char text[8], byte val) {
-	char val_text[5];
-	// Write humid value to text
-	if (val == 100) {
-		strcpy(text, "allways");
-	} else if (val == 0) {
-		strcpy(text, "if dry");
-	} else {
-		itoa(val, val_text, 10);
-		strcpy(text, "<");
-		strcat(text, val_text);
-		strcat(text, "%");
-	}
-}
-
 void volumeValueText(char text[5], uint16_t val) {
 	// Write volume value to text
 	if (val < 1000) {
@@ -659,7 +644,7 @@ void positionText(char* text, byte pos, byte flower_num) {
 			strcat(text, value);
 			break;
 		case 3:
-			humidValueText(value, flowerData[flower_num].humid);
+			periodValueText(value, flowerData[flower_num].hot_dry_period);
 			strcat(text, ": ");
 			strcat(text, value);
 			break;
@@ -694,7 +679,7 @@ void displayFlowerValue(byte flower_num) {
 			periodValueText(value, flowerData[flower_num].period);
 			break;
 		case 4:
-			humidValueText(value, flowerData[flower_num].humid);
+			periodValueText(value, flowerData[flower_num].hot_dry_period);
 			break;
 		case 5:
 			volumeValueText(value, flowerData[flower_num].volume);
@@ -735,16 +720,12 @@ void displaySchedule(byte flower_num) {
 			// 0: no error
 			// 1: undefined
 			// 2: full of water
-			// 3: out of humidity
 			// 4: manually
 			case 1:
 				strcat(text, " U");
 			break;
 			case 2:
 				strcat(text, " F");
-			break;
-			case 3:
-				strcat(text, " H");
 			break;
 			case 4:
 				strcat(text, " M");
@@ -775,12 +756,6 @@ void displayFlowerData(byte flower_num) {
 	char text2[DISPLAY_TEXT_WIDTH_2];
 	if (state.flower_water_sensor[flower_num]) {
 		strcpy(text, "Water full");
-	} else if (state.humidity > flowerData[flower_num].humid) {
-		char humid[5];
-		strcpy(text, "Humid >");
-		itoa(flowerData[flower_num].humid, humid, 10);
-		strcat(text, humid);
-		strcat(text, "%");
 	} else {
 		strcpy(text, "");
 	}

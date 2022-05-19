@@ -175,9 +175,9 @@ void prevPositionValue() {
 			}
 			break;
 			case 4:
-			// Change humid value
-			if (flowerData[flower_num].humid > 0) {
-				flowerData[flower_num].humid -= 5;
+			// Change hot_dry period
+			if (flowerData[flower_num].hot_dry_period > 0) {
+				flowerData[flower_num].hot_dry_period -= 1;
 				state.save_data = true;
 			}
 			break;
@@ -263,9 +263,9 @@ void nextPositionValue() {
 			}
 			break;
 			case 4:
-			// Change humid value
-			if (flowerData[flower_num].humid < 100) {
-				flowerData[flower_num].humid += 5;
+			// Change hot_dry period
+			if (flowerData[flower_num].hot_dry_period < 51) {
+				flowerData[flower_num].hot_dry_period += 1;
 				state.save_data = true;
 			}
 			break;

@@ -235,7 +235,7 @@ void taskWorker() {
 					waterLevelCheck();
 					// Water sensor check before starting
 					flowerWaterSensorCheck(i);
-					if (state.water_level && !state.flower_water_sensor[i] && state.humidity <= flowerData[i].humid) {
+					if (state.water_level && !state.flower_water_sensor[i]) {
 						// Start Watering
 						state.active_watering = i; // active watering = flower
 						state.active_water_humidity = state.humidity; // save humidity value before active watering
@@ -277,9 +277,6 @@ void taskWorker() {
 						if (state.flower_water_sensor[i]) {
 							// Because full of water
 							stopWateringTask(i, 2);
-						} else {
-							// Because humid
-							stopWateringTask(i, 3);
 						}
 					}
 				}

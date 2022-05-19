@@ -114,10 +114,10 @@ void flowerSetup() {
 	// 1..20 - every 1..20 hours
 	// 21..51 - every 1 - 30 days (x-20)
 	// example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
-	// 3: Do not water if sensor is more than X%
+	// 3: Period while Hot and Dry climat
 	// Quantity matches with FLOWER_COUNT
-	flowerData[0] = (flowerDataStruct) {50, 12, 50};
-	flowerData[1] = (flowerDataStruct) {50, 12, 50};
+	flowerData[0] = (flowerDataStruct) {50, 12, 6};
+	flowerData[1] = (flowerDataStruct) {50, 12, 6};
 	// flowerData[2] = (flowerDataStruct) {1000, 6, 20};
 	// flowerData[3] = (flowerDataStruct) {1000, 0, 0};
 	// flowerData[4] = (flowerDataStruct) {1000, 9, 100};

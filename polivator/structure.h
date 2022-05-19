@@ -7,7 +7,7 @@
 struct flowerDataStruct {
 	uint16_t volume; // Volume, millilitre, max 65 535 (65.5 litre)
 	byte period; // Water period, max 63
-	byte humid; // Water humid limit, 0-100%
+	byte hot_dry_period; // Water period while hot_dry climat
 	DateTime water_time[FLOWER_SCHEDULE_COUNT]; // several last times of watering
 	byte water_humidity[FLOWER_SCHEDULE_COUNT]; // several last humidities before watering
 	int8_t water_temp[FLOWER_SCHEDULE_COUNT]; // several last temp before watering. -128..127, celsium
@@ -19,7 +19,6 @@ struct flowerDataStruct {
 // 0: no error
 // 1: undefined
 // 2: full of water
-// 3: out of humidity
 // 4: manually
 
 struct flowerConnectionStruct {
