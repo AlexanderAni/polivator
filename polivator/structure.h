@@ -45,7 +45,7 @@ struct stateStruct {
 	bool water_level; // Water level
 	bool flower_water_sensor[10]; // Flower is full of water
 	// Environment
-	int humidity; // percent
+	byte humidity; // percent
 	int8_t temp; // degree, -128..+127
 	// Time
 	// Menu

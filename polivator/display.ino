@@ -432,8 +432,11 @@ void displayDataScreen() {
 		// Last line
 
 		if (state.water_allowed) {
-			strcpy(text1, "Allowed");
-			displaySmallLine(text1, 1);
+			if (state.hot_dry) {
+				strcpy(text1, "Hot Dry");
+			} else {
+				strcpy(text1, "");
+			}
 		} else {
 			if (state.water_leak) {
 				strcpy(text1, "Leakage");
@@ -442,8 +445,8 @@ void displayDataScreen() {
 			} else {
 				strcpy(text1, "Disabled");
 			}
-			displaySmallLine(text1, 1);
 		}
+		displaySmallLine(text1, 1);
 	}
 }
 
