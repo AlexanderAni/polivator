@@ -452,13 +452,14 @@ void checkSurroundSensors() {
 	// Temperature and Humidity sensor
 	if ((millis() - state.sensor_check_time) > SENSOR_CHECK_DELAY) {
 		humidTempCheck();
+		// Hot Dry Period with +-1°C hysteresis
 		if (state.temp < settings.hot_dry_temp || state.humidity > settings.hot_dry_humid) {
 			if (state.hot_dry == true) {
 				// Reset all the tasks if climat changed
 				resetFlowerTasks();
 			}
 			state.hot_dry = false;
-		} else {
+		} else if (state.temp > settings.hot_dry_temp && state.humidity < settings.hot_dry_humid){
 			if (state.hot_dry == false) {
 				// Reset all the tasks if climat changed
 				resetFlowerTasks();
