@@ -168,21 +168,21 @@ void dateToText(char *text, DateTime time) {
 		strcat(text, ".");
 		itoa(time.month, value, 10);
 		if (time.month < 10) {
-			strcat(text, STR_ZERO);
+			strcat_P(text, STR_ZERO);
 		}
 		strcat(text, value);
 		// Hour
 		strcat(text, " ");
 		itoa(time.hour, value, 10);
 		if (time.hour < 10) {
-			strcat(text, STR_ZERO);
+			strcat_P(text, STR_ZERO);
 		}
 		strcat(text, value);
 		// Minute
 		strcat(text, ":");
 		itoa(time.minute, value, 10);
 		if (time.minute < 10) {
-			strcat(text, STR_ZERO);
+			strcat_P(text, STR_ZERO);
 		}
 		strcat(text, value);
 	}
