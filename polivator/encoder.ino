@@ -32,13 +32,13 @@ void encoderCheck() {
 			// Position change
 			wasActive();
 			// Serial.println("Left");
-			leftButtonPressed();
+			leftTurned();
 		}
 		if (enc.right()) {
 			// Position change
 			wasActive();
 			// Serial.println("Right");
-			rightButtonPressed();
+			rightTurned();
 		}
     enc.resetState();
     displayData();
@@ -62,11 +62,11 @@ void okButtonPressed() {
 	}
 }
 
-void leftButtonPressed() {
+void leftTurned() {
 	switch (state.menu_function) {
 		case 0:
 			// Menu
-			prevMenu();
+			nextMenu();
 			break;
 		case 1:
 			// Position select
@@ -79,11 +79,11 @@ void leftButtonPressed() {
 	}
 }
 
-void rightButtonPressed() {
+void rightTurned() {
 	switch (state.menu_function) {
 		case 0:
 			// Menu
-			nextMenu();
+			prevMenu();
 			break;
 		case 1:
 			// Position select
