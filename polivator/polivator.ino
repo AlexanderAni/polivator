@@ -516,7 +516,7 @@ void check_pump_speed() {
 	char title[11];
 	char text[21];
 	char time_text[21];
-	int time = 200 / settings.pump_speed;
+	int time = 100 / settings.pump_speed; // 100ml
 	PGM_P name = pgm_read_word(FLOWER_NAMES);
 	strcpy_P(title, STR_PUMP_CHECK);
 	strcpy_P(text, STR_PUMP_200ML);
