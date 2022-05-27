@@ -1,7 +1,7 @@
 // Default setup definitions
 
 #pragma once
-#define FLOWER_SCHEDULE_COUNT 10
+#define FLOWER_SCHEDULE_COUNT 8
 // Structure Defenition
 
 struct flowerDataStruct {

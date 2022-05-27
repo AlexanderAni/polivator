@@ -25,11 +25,11 @@
 #define TASK_CHECK_DELAY 1000000000 // working with millis()
 #define LEAKAGE_FINISH_DELAY 10 // seconds. max 65 535. Delay to check if leakage is finished. LEAKAGE_FINISH_DELAY=0 for stop forewer
 
-#define HOT_DRY_TEMP 30 // More than 30c temperature
-#define HOT_DRY_HUMID 30 // Less than 30% of humidity
+#define HOT_DRY_TEMP 35 // More than 30c temperature
+#define HOT_DRY_HUMID 30 // Less than 40% of humidity
 
 #define DAY_START_HOUR 9
-#define DAY_END_HOUR 23
+#define DAY_END_HOUR 21
 // This year and time number will be "never"
 #define NEVER_YEAR 65535
 #define NEVER_TIME 2147483647
@@ -48,16 +48,19 @@
 // 5 - slot 1: Soil sensor
 // 6 - slot 1: Water fill sensor
 // 7 - slot 1: Water plate fill sensor
-const byte CONNECTORS_NUM = 1;
+const byte CONNECTORS_NUM = 4;
 // Connector classes with I2C addresses
 PCF8574 connectors[CONNECTORS_NUM] = {
+	PCF8574(0x21),
+	PCF8574(0x22),
+	PCF8574(0x23),
 	PCF8574(0x24),
 };
 byte flower_connectors[CONNECTORS_NUM][2] = {
 	{0, 1}, // flowers 0 and 1 on connector 1
-	// {2, 3}, // flowers 2 and 3 on connector 2
-	// {4, 5}, // flowers 4 and 5 on connector 3
-	// {6, 7}, // flowers 6 and 7 on connector 4
+	{2, 3}, // flowers 2 and 3 on connector 2
+	{4, 5}, // flowers 4 and 5 on connector 3
+	{6, 7}, // flowers 6 and 7 on connector 4
 	// {8, 9}, // flowers 8 and 9 on connector 5
 	// {x, -1}, // only flower x on connector slot 0
 	// {-1, x}, // only flower x on connector slot 1
@@ -94,16 +97,25 @@ void stateSetup() {
 }
 
 // 2 flowers
-const byte FLOWER_COUNT = 2;
+const byte FLOWER_COUNT = 8;
 flowerDataStruct flowerData[FLOWER_COUNT];
 flowerConnectionStruct flowerConnection[FLOWER_COUNT];
 
 // Quantity matches with FLOWER_COUNT
-const char fl_name_str1[] PROGMEM = "Chlorophy";
-const char fl_name_str2[] PROGMEM = "Gerbera";
-// const char fl_name_str3[] PROGMEM = "";
+// const char fl_name_str1[] PROGMEM = "Chlorophy";
+const char fl_name_str0[] PROGMEM = "Dekabrist";
+const char fl_name_str1[] PROGMEM = "Hoya";
+const char fl_name_str2[] PROGMEM = "Phyllocactus";
+const char fl_name_str3[] PROGMEM = "Gerbera";
+const char fl_name_str4[] PROGMEM = "Orchid";
+const char fl_name_str5[] PROGMEM = "Ivy";
+const char fl_name_str6[] PROGMEM = "Chlorophy";
+const char fl_name_str7[] PROGMEM = "Assorti";
 const char *const FLOWER_NAMES[] PROGMEM = {
-	fl_name_str1, fl_name_str2,
+	fl_name_str0, fl_name_str1,
+	fl_name_str2, fl_name_str3,
+	fl_name_str4, fl_name_str5,
+	fl_name_str6, fl_name_str7,
 };
 
 
@@ -116,22 +128,20 @@ void flowerSetup() {
 	// 		example: 6 - every 6 hours, 12 - every 12 hours, 21 - every day, 33 - every 13 days
 	// 3: Period while Hot and Dry climat
 	// Quantity matches with FLOWER_COUNT
-	flowerData[0] = (flowerDataStruct) {50, 12, 6};
-	flowerData[1] = (flowerDataStruct) {50, 12, 6};
-	// flowerData[2] = (flowerDataStruct) {1000, 6, 20};
-	// flowerData[3] = (flowerDataStruct) {1000, 0, 0};
-	// flowerData[4] = (flowerDataStruct) {1000, 9, 100};
-	// flowerData[5] = (flowerDataStruct) {100, 10, 20};
-	// flowerData[6] = (flowerDataStruct) {100, 11, 20};
-	// flowerData[7] = (flowerDataStruct) {1000, 12, 20};
-	// flowerData[8] = (flowerDataStruct) {1000, 22, 20};
-	// flowerData[9] = (flowerDataStruct) {1000, 41, 20};
+	flowerData[0] = (flowerDataStruct) {250, 27, 25}; // Dekabrist
+	flowerData[1] = (flowerDataStruct) {250, 25, 25}; // Hoya
+	flowerData[2] = (flowerDataStruct) {500, 27, 25}; // Phyllocactus * 2 flowers
+	flowerData[3] = (flowerDataStruct) {150, 23, 22}; // Gerbera
+	flowerData[4] = (flowerDataStruct) {500, 27, 25}; // Orchid * 4 flowers
+	flowerData[5] = (flowerDataStruct) {200, 23, 22}; // Ivy * 2 flowers
+	flowerData[6] = (flowerDataStruct) {300, 24, 23}; // Chlorophy * 2 flowers
+	flowerData[7] = (flowerDataStruct) {300, 24, 23}; // Assorti * 3 flowers
 };
 
 // Menu
 
 const byte POSITION_COUNT = 5;
-const byte DISPLAY_POSITIONS = 4; // How many positions display
+const byte DISPLAY_POSITIONS = 4; // How many positions to display
 const char mnu_str1[] PROGMEM = "Show schedule";
 const char mnu_str2[] PROGMEM = "Water the flower";
 const char mnu_str3[] PROGMEM = "Period";
@@ -146,7 +156,7 @@ const char s_str2[] PROGMEM = "HotDry humid";
 const char s_str3[] PROGMEM = "Day starts";
 const char s_str4[] PROGMEM = "Day ends";
 const char s_str5[] PROGMEM = "Pump speed";
-const char s_str6[] PROGMEM = "Check pump 200ml";
+const char s_str6[] PROGMEM = "Check pump 100ml";
 const char s_str7[] PROGMEM = "leak ends";
 const char *const SETTINGS_MENU[] PROGMEM = {
 	s_str1, s_str2, s_str3, s_str4, s_str5, s_str6, s_str7,

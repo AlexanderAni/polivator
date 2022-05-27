@@ -7,8 +7,9 @@
 #define DISPLAY_TEXT_WIDTH 21 // Size 1
 
 
-// GyverOLED does not work without buffer for 1106 Display
-// GyverOLED<SSH1106_128x64, OLED_NO_BUFFER> display; // I2C
+// GyverOLED v1.4 does not work without buffer for 1106 Display
+// Use https://github.com/AlexanderAni/GyverOLED
+// GyverOLED<SSH1106_128x64, OLED_NO_BUFFER> display; // I2C work too slowly with encoder
 GyverOLED<SSH1106_128x64, OLED_NO_BUFFER, OLED_SPI, SPI_CS_PIN, SPI_DC_PIN, SPI_RESET_PIN> display; // SPI
 
 // Declaration
