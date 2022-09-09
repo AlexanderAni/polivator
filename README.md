@@ -2,83 +2,85 @@
 
 Arduino, AVR, C++
 
-## Поливатор самостоятелен
-`Как устроена работа Поливатора`
+[Russian/Русский](/README_RU.md)
 
-Это устройство для полива до 8 различных цветов по заданному расписанию.
-Поливатор можно оставить самостоятельно поливать цветы во время отпуска или просто круглогодично поливать цветы в домашней оражерее. Он сам проверяет наличие воды в баке и управляет поливом каждого цветка по расписанию. При этом учитывается температура и влажность окружающей среды. На дисплее можно проверить текущее состояние и изменить настройки полива.
-Особенностями Поливатора является расширяемая модульная система, сохранение истории полива, и работа без пауз на полив конкретного растения. В процессе полива продолжают опрашиваться все датчики и проверяется расписание. Можно смотреть график или изменять настройки не дожидаясь окончания полива.
-Питание всей системы от одного блока usb 5v. Режим энергосбережения позволяет работать от аккумулятора.
+## The watering machine is independent
+`How the Polivator works`
 
-[Facebook. Премьера](https://www.facebook.com/aanishchenko/posts/pfbid034qEHsVyJWHPmqgtMWfscPb4xsddgqDzVarsc6yDjJoVNN26u15hXLRgtBCGTqUbWl)
-[Видео. Полный рассказ об устройстве](https://www.facebook.com/100003967933465/videos/pcb.2457044897771084/1915227252002448)
-[Видео. Пример полива](https://www.facebook.com/100003967933465/videos/3267990133452066/)
-[Видео. Пример меню](https://www.facebook.com/100003967933465/videos/pcb.2457044897771084/1137887480090560)
+This device is for watering up to 8 different colors according to a given schedule.
+The waterer can be left alone to water the flowers during the holidays or simply water the flowers in the home greenhouse year-round. Itself checks the presence of water in the tank and controls the watering of each flower according to the schedule. This takes into account the temperature and humidity of the environment. The display allows you to check the current status and change the watering settings.
+The features of the Polivator are an expandable modular system, the preservation of the history of watering, and work without pauses for watering a particular plant. During irrigation, all sensors continue to be polled and the schedule is checked. You can view the schedule or change settings without waiting for the end of watering.
+Powering the entire system from a single usb 5v block. Power saving mode allows you to work on battery power.
 
-## Поливатор и его помощники
-`Что входит в комплекс полива`
+[Facebook. Premiere](https://www.facebook.com/aanishchenko/posts/pfbid034qEHsVyJWHPmqgtMWfscPb4xsddgqDzVarsc6yDjJoVNN26u15hXLRgtBCGTqUbWl)
+[Video. Full story about the device](https://www.facebook.com/100003967933465/videos/pcb.2457044897771084/1915227252002448)
+[Video. Watering example](https://www.facebook.com/100003967933465/videos/3267990133452066/)
+[Video. Menu Example](https://www.facebook.com/100003967933465/videos/pcb.2457044897771084/1137887480090560)
 
-1. Основной блок
-- Блок с 1.3 дюймовым LCD дисплеем SSH1106 под управлением arduino pro mini 5v
-- Управление всеми действиями через энкодер
-- Модуль часов DS3231
-Размеры:
+## Politator and his assistants
+`What is included in the irrigation complex`
 
-Основной блок разведён на 2х-сторонней плате размером 50х80мм. С задней части находятся разъёмы для подключения датчиков, модуля часов и разъём для подключения 4-жильного провода I2c.
+1. Main unit
+- Block with 1.3 inch LCD display SSH1106 controlled by arduino pro mini 5v
+- Management of all actions with the encoder
+- DS3231 clock module
+Dimensions:
 
-2. Коннекторы для цветов. 4 шт
-- Небольшой коннектор на 2 цветка на основе разширителя портов PCF8574
-- 2 нормально-закрытых клапана для воды
-- 2 датчика воды
-Размеры:
+The main unit is wired on a 2-sided board measuring 50x80mm. From the back there are connectors for connecting sensors, a clock module and a connector for connecting a 4-wire I2c wire.
 
-Коннекторы разведены на двухсторонней плате размером 20х50мм. На плате расположены отверстия для соединения "бутербродом" платы pcf8574. Каждый коннектор имеет проходное подключение к проводу I2c.
+2. Connectors for flowers. 4 things
+- Small connector for 2 flowers based on the port expander PCF8574
+- 2 normally closed water valves
+- 2 water sensors
+Dimensions:
 
-3. Бак с водой
-- Бутыль от кулера на 19 литров
-- Насос c питанием usb 5v
-- Сенсорный датчик наличия воды
+The connectors are wired on a double-sided board measuring 20x50mm. There are holes on the board for connecting the "sandwich" of the pcf8574 board. Each connector has a loop through to the I2c wire.
 
-4. Трубопровод
-- Силиконовые шланги внутренним диаметром 6мм и 4мм
+3. Water tank
+- 19 liter cooler bottle
+- Pump powered by usb 5v
+- Sensory water presence sensor
 
-## Собираем сами
-`Ссылки на ресурсы для самостоятельной сборки устройства`
+4. Pipeline
+- Silicone hoses with an inner diameter of 6mm and 4mm
 
-- [GitHub. Код Поливатора для arduino pro mini][]
-- [EasyEDA. Polivator Main. Основной блок. Схема, разводка платы][]
-- [EasyEDA. Polivator Connector Type A. Схема, разводка платы][]
-- [GitHub. Water Level T13. Датчик уровня воды в баке. Код для Attiny13][]
-- [EasyEDA. Water Level T13. Датчик уровня воды в баке. Схема, разводка платы][]
+## We assemble ourselves
+`Links to resources for self-assembly of the device`
 
-## Структура кода
-`Принципиальная структура кода`
+- [github. Polivator code for arduino pro mini][]
+- [EasyEDA. Polivator Main. Main block. Schematic, PCB layout][]
+- [EasyEDA. Polivator Connector Type A. Schematic, PCB layout][]
+- [github. Water Level T13. Water level sensor in the tank. Code for Attiny13][]
+- [EasyEDA. Water Level T13. Water level sensor in the tank. Schematic, PCB layout][]
 
-Описание будет добавлено позже
+## Code structure
+`Principal code structure`
 
-## А что можно ещё?
-`Перспективы, возможности`
+Description will be added later
 
-### Ограничение до двух разновидностей цветов на один коннектор
-Коннектор PCF8574 имеет 8 пинов ввода/вывода.
-<!-- Для надёжного подключения клапанов или датчиков используется npn mosfet. -->
-Для одного цветка используется 3 пина:
-- Клапан открытия воды
-- Включение датчика воды
-- Измерение датчика воды
-Датчик воды включается периодически только для опроса состояния. В остальное время он выключен. Такой режим позволяет сохранить контакты датчиков, которые долго находятся в воде, от гальванического окисления контактов.
+## What else can you do?
+`Opportunities`
 
-### Ограничение 4 коннектора и 8 цветов
-Ограничения в первую очередь связаны с размером оперативной памяти для ATmega328p
-Можно изменять количество коннекторов и количество ячеек хранения истории `FLOWER_SCHEDULE_COUNT`. Сохраняя при этом баланс используемой оперативной памяти, увеличив одно, уменьшив второе.
+### Limitation to two color variations per connector
+The PCF8574 connector has 8 I/O pins.
+<!-- An npn mosfet is used to securely connect valves or sensors. -->
+For one flower, 3 pins are used:
+- Water opening valve
+- Enable water sensor
+- Water sensor measurement
+The water sensor is switched on periodically only to poll the status. The rest of the time it is off. This mode allows you to save the contacts of the sensors, which are in the water for a long time, from galvanic oxidation of the contacts.
 
-Расчёт выделяеемой памяти в platformio:
-RAM:   [========  ]  82.4% (used 1687 bytes from 2048 bytes)
-Flash: [========= ]  93.8% (used 28830 bytes from 30720 bytes)
-Максимальная расчётная оперативная память RAM, при которой не возникало ошибок во время тестирования: 84.8% (used 1736 bytes).
+### Limited to 4 connectors and 8 colors
+The limitations are primarily related to the size of the RAM for the ATmega328p
+You can change the number of connectors and the number of `FLOWER_SCHEDULE_COUNT` history storage cells. While maintaining the balance of used RAM, increasing one, decreasing the second.
 
-Теоретически, можно использовать большое количество коннекторов с микроконтроллерами atmega с большей оперативной памятью. Например ATmega64 с оперативной памятью 4 килобайт.
+Calculation of allocated memory in platformio:
+RAM: [======== ] 82.4% (used 1687 bytes from 2048 bytes)
+Flash: [========= ] 93.8% (used 28830 bytes from 30720 bytes)
+The maximum estimated RAM at which no errors occurred during testing: 84.8% (used 1736 bytes).
 
-### Todo list
+Theoretically, you can use a large number of connectors with atmega microcontrollers with more RAM. For example ATmega64 with 4 kilobytes of RAM.
 
-- Выбор названия цветка через меню
+###Todo list
+
+- Select flower name via menu
