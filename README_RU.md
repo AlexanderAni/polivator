@@ -47,11 +47,11 @@ Arduino, AVR, C++
 ## Собираем сами
 `Ссылки на ресурсы для самостоятельной сборки устройства`
 
-- [GitHub. Код Поливатора для arduino pro mini][]
-- [EasyEDA. Polivator Main. Основной блок. Схема, разводка платы][]
-- [EasyEDA. Polivator Connector Type A. Схема, разводка платы][]
-- [GitHub. Water Level T13. Датчик уровня воды в баке. Код для Attiny13][]
-- [EasyEDA. Water Level T13. Датчик уровня воды в баке. Схема, разводка платы][]
+- [GitHub. Код Поливатора для arduino pro mini](https://github.com/AlexanderAni/polivator)
+- [EasyEDA. Polivator Main. Основной блок. Схема, разводка платы](https://oshwlab.com/alexani/flowers_copy)
+- [EasyEDA. Polivator Connector Type A. Схема, разводка платы](https://oshwlab.com/alexani/polivator-connector)
+- [GitHub. Water Level T13. Датчик уровня воды в баке. Код для Attiny13](https://github.com/AlexanderAni/water_level_t13)
+- [EasyEDA. Water Level T13. Датчик уровня воды в баке. Схема, разводка платы](https://oshwlab.com/alexani/water-sensor)
 
 ## Структура кода
 `Принципиальная структура кода`

@@ -7,7 +7,7 @@ Arduino, AVR, C++
 ## The watering machine is independent
 `How the Polivator works`
 
-This device is for watering up to 8 different colors according to a given schedule.
+This device is for watering up to 8 different flowers according to a given schedule.
 The waterer can be left alone to water the flowers during the holidays or simply water the flowers in the home greenhouse year-round. Itself checks the presence of water in the tank and controls the watering of each flower according to the schedule. This takes into account the temperature and humidity of the environment. The display allows you to check the current status and change the watering settings.
 The features of the Polivator are an expandable modular system, the preservation of the history of watering, and work without pauses for watering a particular plant. During irrigation, all sensors continue to be polled and the schedule is checked. You can view the schedule or change settings without waiting for the end of watering.
 Powering the entire system from a single usb 5v block. Power saving mode allows you to work on battery power.
@@ -47,11 +47,11 @@ The connectors are wired on a double-sided board measuring 20x50mm. There are ho
 ## We assemble ourselves
 `Links to resources for self-assembly of the device`
 
-- [github. Polivator code for arduino pro mini][]
-- [EasyEDA. Polivator Main. Main block. Schematic, PCB layout][]
-- [EasyEDA. Polivator Connector Type A. Schematic, PCB layout][]
-- [github. Water Level T13. Water level sensor in the tank. Code for Attiny13][]
-- [EasyEDA. Water Level T13. Water level sensor in the tank. Schematic, PCB layout][]
+- [github. Polivator code for arduino pro mini](https://github.com/AlexanderAni/polivator)
+- [EasyEDA. Polivator Main. Main block. Schematic, PCB layout](https://oshwlab.com/alexani/flowers_copy)
+- [EasyEDA. Polivator Connector Type A. Schematic, PCB layout](https://oshwlab.com/alexani/polivator-connector)
+- [github. Water Level T13. Water level sensor on the tank. Code for Attiny13](https://github.com/AlexanderAni/water_level_t13)
+- [EasyEDA. Water Level T13. Water level sensor on the tank. Schematic, PCB layout](https://oshwlab.com/alexani/water-sensor)
 
 ## Code structure
 `Principal code structure`
@@ -61,7 +61,7 @@ Description will be added later
 ## What else can you do?
 `Opportunities`
 
-### Limitation to two color variations per connector
+### Limitation to two flower variations per connector
 The PCF8574 connector has 8 I/O pins.
 <!-- An npn mosfet is used to securely connect valves or sensors. -->
 For one flower, 3 pins are used:
@@ -70,7 +70,7 @@ For one flower, 3 pins are used:
 - Water sensor measurement
 The water sensor is switched on periodically only to poll the status. The rest of the time it is off. This mode allows you to save the contacts of the sensors, which are in the water for a long time, from galvanic oxidation of the contacts.
 
-### Limited to 4 connectors and 8 colors
+### Limited to 4 connectors and 8 flowers
 The limitations are primarily related to the size of the RAM for the ATmega328p
 You can change the number of connectors and the number of `FLOWER_SCHEDULE_COUNT` history storage cells. While maintaining the balance of used RAM, increasing one, decreasing the second.
 
